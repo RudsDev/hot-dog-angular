@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
   },
+  {
+    path: 'hotdogs',
+    loadChildren: () => import('./modules/hotdogs/hotdogs.module').then(m => m.HotdogsModule)
+  },
 
 ];
 
