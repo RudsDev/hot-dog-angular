@@ -1,0 +1,109 @@
+<div class="grid m-0">
+  <div class="col-12 p-0">
+    <p-card header="Ingredientes" styleClass="shadow-3 text-gray-900 col-12 bg-blue-100 p-2">
+      <p-table
+        #productsTable
+        dataKey="id"
+        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} ingredientes"
+        styleClass="p-datatable-sm"
+        [rows]="10"
+        [paginator]="true"
+        [rowHover]="true"
+        [showCurrentPageReport]="true"
+        [globalFilterFields]="['nome', 'preco']"
+        [tableStyle]="{ 'min-width': '70rem' }"
+        [value]="allIngredients"
+      >
+
+      <ng-template pTemplate="header" class="text-red-900">
+        <tr>
+          <th pSortableColumn="nome">
+            <div class="flex justify-content-between align-items-center">
+              <div class="flex justify-content-between align-items-center">
+                Nome
+              </div>
+              <div class="flex justify-content-between align-items-center">
+                <p-sortIcon field="nome"></p-sortIcon>
+                <p-columnFilter
+                  type="text"
+                  field="nome"
+                  display="menu"
+                  matchMode="contains"
+                  [showMatchModes]="false"
+                  [showOperator]="false"
+                  [showAddButton]="false"
+                ></p-columnFilter>
+              </div>
+            </div>
+          </th>
+
+          <th pSortableColumn="preco">
+            <div class="flex justify-content-between align-items-center">
+              <div class="flex justify-content-between align-items-center">
+                Preço
+              </div>
+              <div class="flex justify-content-between align-items-center">
+                <p-sortIcon field="preco"></p-sortIcon>
+                <p-columnFilter
+                  type="text"
+                  field="preco"
+                  display="menu"
+                  matchMode="contains"
+                  [showMatchModes]="false"
+                  [showOperator]="false"
+                  [showAddButton]="false"
+                ></p-columnFilter>
+              </div>
+            </div>
+          </th>
+
+          <th>
+            <div class="flex justify-content-end">
+              <p-button
+                styleClass="p-button-info"
+                icon="pi pi-plus"
+                label="Adicionar"
+                pTooltip="Adicionar produto"
+                tooltipPosition="top"
+                (onClick)="handleIngredientEvent()"
+              ></p-button>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-ingredient>
+        <tr>
+          <td>{{ ingredient.nome }}</td>
+          <td>{{ ingredient.preco | currency : "BRL" }}</td>
+          <td>
+            <div
+              class="flex justify-content-end align-content-center align-items-center gap-2"
+            >
+              <p-button
+                pRipple
+                size="small"
+                icon="pi pi-pencil"
+                aria-label="Editar ingrediente"
+                severity="warning"
+                [rounded]="true"
+                (onClick)="handleIngredientEvent()"
+              ></p-button>
+              <p-button
+                pRipple
+                size="small"
+                icon="pi pi-trash"
+                aria-label="Editar ingrediente"
+                severity="danger"
+                [rounded]="true"
+                (onClick)="handleIngredientEvent()"
+              ></p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      </p-table>
+    </p-card>
+  </div>
+</div>
