@@ -40,7 +40,6 @@ export class IngredientsHomeComponent implements OnInit, OnDestroy {
     if(resp?.length) {
       this.allIngredients = resp
     }
-    console.log(this.allIngredients)
   }
 
   private handleErrorGetAllIngredients(error: HttpErrorResponse) {

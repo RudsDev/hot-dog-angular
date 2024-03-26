@@ -38,7 +38,6 @@ export class PromotionsHomeComponent implements OnInit, OnDestroy {
     if(resp?.length) {
       this.allPromotions = resp
     }
-    console.log(this.allPromotions)
   }
 
   private handleErrorGetAllPromotions(error: HttpErrorResponse) {

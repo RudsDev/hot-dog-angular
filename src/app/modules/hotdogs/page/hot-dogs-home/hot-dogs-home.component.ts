@@ -39,7 +39,6 @@ export class HotDogsHomeComponent implements OnInit, OnDestroy {
     if(resp?.length) {
       this.allHotDogs = resp
     }
-    console.log(this.allHotDogs)
   }
 
   private handleErrorGetAllHotDogs(error: HttpErrorResponse) {
