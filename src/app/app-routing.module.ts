@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'hotdogs',
     loadChildren: () => import('./modules/hotdogs/hotdogs.module').then(m => m.HotdogsModule)
   },
+  {
+    path: 'promotions',
+    loadChildren: () => import('./modules/promotions/promotions.module').then(m => m.PromotionsModule)
+  },
 
 ];
 
