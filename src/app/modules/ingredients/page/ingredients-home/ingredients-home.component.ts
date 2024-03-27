@@ -4,6 +4,7 @@ import { IngredientsTinyResponse } from '../../../../models/interfaces/ingredien
 import { IngredientsFacade } from '../../../../facades/ingredients/ingredients.facade';
 import { TableCrudEvent } from '../../../../models/interfaces/event/table-crud-event';
 import { CrudOperations } from '../../../../../core/CRUD_OPERATION';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { CrudOperations } from '../../../../../core/CRUD_OPERATION';
   styleUrl: './ingredients-home.component.scss'
 })
 export class IngredientsHomeComponent implements OnInit {
+  private router: Router = inject(Router)
   facade: IngredientsFacade = inject(IngredientsFacade)
   allIngredients: Array<IngredientsTinyResponse> = []
 
@@ -40,7 +42,7 @@ export class IngredientsHomeComponent implements OnInit {
   }
 
   private create(): void {
-    console.log('CREATE')
+    this.router.navigate(['/ingredients/register'])
   }
 
   private read(): void {

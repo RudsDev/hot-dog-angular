@@ -1,0 +1,26 @@
+<div class="flex justify-content-center align-items-center my-2">
+  <p-card >
+    <form [formGroup]="ingrerdientForm" (ngSubmit)="handleSubmitAddIngredient()">
+      <div class="card flex flex-column md:flex-column gap-3">
+        <input pInputText placeholder="Nome" formControlName="nome" />
+        <input
+          pInputText
+          type="number"
+          placeholder="Preço"
+          formControlName="preco"
+          min="0"
+        />
+        <div
+          class="flex flex-row justify-content-center align-content-center align-items-center m-1"
+        >
+          <p-button
+            type="submit"
+            label="Concluir"
+            [disabled]="ingrerdientForm.invalid"
+          >
+          </p-button>
+        </div>
+      </div>
+    </form>
+  </p-card>
+</div>
