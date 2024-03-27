@@ -65,7 +65,7 @@
                 label="Adicionar"
                 pTooltip="Adicionar produto"
                 tooltipPosition="top"
-                (onClick)="handleIngredientEvent()"
+                (onClick)="handleIngredientEvent({ action: action.CREATE })"
               ></p-button>
             </div>
           </th>
@@ -87,7 +87,7 @@
                 aria-label="Editar ingrediente"
                 severity="warning"
                 [rounded]="true"
-                (onClick)="handleIngredientEvent()"
+                (onClick)="handleIngredientEvent({ action: action.UPDATE, id: ingredient.id })"
               ></p-button>
               <p-button
                 pRipple
@@ -96,7 +96,7 @@
                 aria-label="Editar ingrediente"
                 severity="danger"
                 [rounded]="true"
-                (onClick)="handleIngredientEvent()"
+                (onClick)="handleIngredientEvent({ action: action.DELETE, id: ingredient.id })"
               ></p-button>
             </div>
           </td>

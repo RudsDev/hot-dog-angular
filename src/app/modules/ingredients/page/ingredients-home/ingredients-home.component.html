@@ -1,1 +1,4 @@
-<app-ingredients-table [allIngredients$]="facade.ingredients$"></app-ingredients-table>
+<app-ingredients-table
+  [allIngredients$]="facade.ingredients$"
+  (ingredientEvent)="handleIngredientEvent($event)"
+></app-ingredients-table>
