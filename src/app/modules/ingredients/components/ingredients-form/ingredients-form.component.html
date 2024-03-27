@@ -1,7 +1,14 @@
 <div class="flex justify-content-center align-items-center my-2">
-  <p-card >
+  <p-card class="w-4">
+
+    <ng-template pTemplate="header" >
+      <p class="text-center font-semibold pt-4 my-0">
+        Cadastro de Ingredientes
+      </p>
+    </ng-template>
+
     <form [formGroup]="ingrerdientForm" (ngSubmit)="handleSubmitAddIngredient()">
-      <div class="card flex flex-column md:flex-column gap-3">
+      <div class="flex flex-column md:flex-column gap-3">
         <input pInputText placeholder="Nome" formControlName="nome" />
         <input
           pInputText

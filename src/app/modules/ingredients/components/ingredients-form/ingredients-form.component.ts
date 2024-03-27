@@ -15,7 +15,7 @@ export class IngredientsFormComponent {
         Validators.maxLength(50),
       ]
     ),
-    preco: new FormControl(0, [Validators.required, Validators.min(0.1)]),
+    preco: new FormControl('', [Validators.required, Validators.min(0.1)]),
   });
 
   handleSubmitAddIngredient() {
