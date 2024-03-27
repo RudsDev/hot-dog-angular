@@ -1,5 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { IngredientsFacade } from '../../../../facades/ingredients/ingredients.facade';
+
+import { IngredientsTinyResponse } from '../../../../models/interfaces/ingredients/ingredients-tiny-response';
 
 @Component({
   selector: 'app-ingredients-form',
@@ -7,6 +12,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrl: './ingredients-form.component.scss',
 })
 export class IngredientsFormComponent {
+  private router: Router = inject(Router)
+  private facade: IngredientsFacade = inject(IngredientsFacade)
+
   public ingrerdientForm = new FormGroup({
     nome: new FormControl('',
       [
@@ -19,6 +27,15 @@ export class IngredientsFormComponent {
   });
 
   handleSubmitAddIngredient() {
-    throw new Error('Method not implemented.');
+    this.facade.add(this.createSubmitPayload(), {
+      success: () => this.router.navigate(['/ingredients'])
+    })
+  }
+
+  private createSubmitPayload(): IngredientsTinyResponse {
+    return {
+      nome: this.ingrerdientForm.value.nome as string,
+      preco:  this.ingrerdientForm.value.preco as string,
+    }
   }
 }

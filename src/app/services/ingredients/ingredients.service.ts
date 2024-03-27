@@ -28,5 +28,13 @@ export class IngredientsService {
     );
   }
 
+  public create(payload: IngredientsTinyResponse): Observable<IngredientsTinyResponse> {
+    return this.http.post<IngredientsTinyResponse>(
+      `${this.API_URL}/${ApiVersions.V1}/${this.SUFIX}`,
+      payload,
+      this.httpOptions
+    );
+  }
+
   constructor() {}
 }

@@ -15,4 +15,9 @@ export class IngredientsState {
     this._allIngredients.next(allIngredients);
   }
 
+  public add(ingredient: IngredientsTinyResponse): IngredientsTinyResponse {
+    const current = this._allIngredients.getValue()
+    this.allIngredients = [...current, ingredient]
+    return ingredient
+  }
 }

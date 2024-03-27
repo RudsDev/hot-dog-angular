@@ -1,5 +1,5 @@
 export interface IngredientsTinyResponse {
-  id:string,
+  id?:string,
   nome:string,
   preco:string,
 }

@@ -18,6 +18,25 @@ export class IngredientsFacade {
 
   constructor(){}
 
+  public add(
+    ingredient: IngredientsTinyResponse,
+    callbacks?: {success?: Function, error?: Function}
+  ):void {
+    this.ingredientsService
+      .create(ingredient)
+      .subscribe({
+        next: (resp: IngredientsTinyResponse) => {
+          this.state.add(resp)
+          this.toast.success(`${resp.nome} criado com sucesso.`)
+          callbacks?.success && callbacks.success()
+        },
+        error: (e) => {
+          this.toast.error(`Erro ao criar ingrediente.`, e)
+          callbacks?.error && callbacks.error()
+        }
+      })
+  }
+
   public getAllIngredients(): void {
     this.ingredientsService
       .getAll()
