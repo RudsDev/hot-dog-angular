@@ -11,10 +11,6 @@ export class IngredientsState {
     return this._allIngredients.asObservable();
   }
 
-  public get allIngredients(): IngredientsTinyResponse[] {
-    return this._allIngredients.value;
-  }
-
   public set allIngredients(allIngredients: IngredientsTinyResponse[]) {
     this._allIngredients.next(allIngredients);
   }
