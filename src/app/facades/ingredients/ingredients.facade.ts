@@ -58,6 +58,7 @@ export class IngredientsFacade {
   ) {
     this.ingredientsService
       .remove(id)
+      .pipe(take(1))
       .subscribe({
         next: () => {
           this.state.remove(id)
