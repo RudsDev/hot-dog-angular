@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { NotificationsModule } from './components/notifications/notifications.module';
+import { PromptsModule } from './components/prompts/prompts.module';
 
 @NgModule({
   declarations: [
@@ -23,10 +24,12 @@ import { NotificationsModule } from './components/notifications/notifications.mo
     FontAwesomeModule,
     RouterModule,
     NotificationsModule,
+    PromptsModule,
   ],
   exports:[
     ToolbarComponent,
     NotificationsModule,
+    PromptsModule,
   ]
 })
 export class SharedModule { }

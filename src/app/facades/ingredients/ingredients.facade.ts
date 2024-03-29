@@ -6,6 +6,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { IngredientsTinyResponse } from "../../models/interfaces/ingredients/ingredients-tiny-response";
 import { Observable } from "rxjs/internal/Observable";
 import { ToastNotificationComponent } from "../../shared/components/notifications/toast-notification/toast-notification.component";
+import { PromptComponent } from "../../shared/components/prompts/prompt/prompt.component";
 import { take } from "rxjs";
 
 @Injectable({providedIn: 'root'})
@@ -14,6 +15,7 @@ export class IngredientsFacade {
   private ingredientsService: IngredientsService = inject(IngredientsService)
   private state: IngredientsState = inject(IngredientsState)
   private toast:ToastNotificationComponent = inject(ToastNotificationComponent)
+  private prompt:PromptComponent = inject(PromptComponent)
 
   ingredients$: Observable<IngredientsTinyResponse[]> = this.state.allIngredients$;
 
@@ -43,6 +45,17 @@ export class IngredientsFacade {
     id: string,
     callbacks?: {success?: Function, error?: Function}
   ): void {
+    this.prompt.showDialog({
+      header: 'Remover ingrediente',
+      message: 'Deseha remover o ingrediente?',
+      accept: () => this.removeIngredienteAccept(id, callbacks)
+    })
+  }
+
+  private removeIngredienteAccept(
+    id: string,
+    callbacks?: {success?: Function, error?: Function}
+  ) {
     this.ingredientsService
       .remove(id)
       .subscribe({
