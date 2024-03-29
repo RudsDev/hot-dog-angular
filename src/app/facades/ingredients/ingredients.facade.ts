@@ -75,11 +75,10 @@ export class IngredientsFacade {
     this.ingredientsService
       .getAll()
       .pipe(take(1))
-      .subscribe(this.getAllIngredientsObservableHandler)
-  }
-
-  private getAllIngredientsObservableHandler = {
-    next: (d: IngredientsTinyResponse[]) => this.state.allIngredients = d?.length ? d : [],
-    error: (error: HttpErrorResponse) => this.toast.error('Erro ao listar ingredientes'),
+      .subscribe({
+        next: (d: IngredientsTinyResponse[]) => this.state.allIngredients = d?.length ? d : [],
+        error: (e: HttpErrorResponse) => this.toast.error('Erro ao listar ingredientes', e),
+      }
+    )
   }
 }
