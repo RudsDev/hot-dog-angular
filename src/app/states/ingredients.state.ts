@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, toArray } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { IngredientsTinyResponse } from "../models/interfaces/ingredients/ingredients-tiny-response";
 
 @Injectable({providedIn: 'root'})
@@ -9,6 +9,10 @@ export class IngredientsState {
 
   public get allIngredients$(): Observable<IngredientsTinyResponse[]> {
     return this._allIngredients.asObservable();
+  }
+
+  public get allIngredients(): IngredientsTinyResponse[] {
+    return this._allIngredients.getValue();
   }
 
   public set allIngredients(allIngredients: IngredientsTinyResponse[]) {

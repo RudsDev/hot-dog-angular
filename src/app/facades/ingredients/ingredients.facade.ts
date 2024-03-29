@@ -21,6 +21,12 @@ export class IngredientsFacade {
 
   constructor(){}
 
+  public select(id?: string) {
+    return id
+      ? this.state.allIngredients.find(i => i.id == id)
+      : undefined
+  }
+
   public add(
     ingredient: IngredientsTinyResponse,
     callbacks?: {success?: Function, error?: Function}
@@ -36,6 +42,26 @@ export class IngredientsFacade {
         },
         error: (e) => {
           this.toast.error(`Erro ao criar ingrediente.`, e)
+          callbacks?.error && callbacks.error()
+        }
+      })
+  }
+
+  public edit(
+    ingredient: IngredientsTinyResponse,
+    callbacks?: {success?: Function, error?: Function}
+  ):void {
+    this.ingredientsService
+      .edit(ingredient)
+      .pipe(take(1))
+      .subscribe({
+        next: (resp: IngredientsTinyResponse) => {
+          this.state.add(resp)
+          this.toast.success(`${resp.nome} editado com sucesso.`)
+          callbacks?.success && callbacks.success()
+        },
+        error: (e) => {
+          this.toast.error(`Erro ao editar ingrediente.`, e)
           callbacks?.error && callbacks.error()
         }
       })

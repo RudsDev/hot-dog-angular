@@ -11,4 +11,8 @@ export const INGREDIENTS_ROUTES: Routes = [
     path: 'register',
     component: IngredientsRegisterComponent,
   },
+  {
+    path: 'register/:id',
+    component: IngredientsRegisterComponent,
+  },
 ]

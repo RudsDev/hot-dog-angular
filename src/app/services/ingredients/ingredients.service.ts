@@ -36,6 +36,14 @@ export class IngredientsService {
     );
   }
 
+  public edit(payload: IngredientsTinyResponse): Observable<IngredientsTinyResponse> {
+    return this.http.put<IngredientsTinyResponse>(
+      `${this.API_URL}/${ApiVersions.V1}/${this.SUFIX}/${payload.id}`,
+      payload,
+      this.httpOptions
+    );
+  }
+
   public remove(id: string): Observable<void> {
     return this.http.delete<void>(
       `${this.API_URL}/${ApiVersions.V1}/${this.SUFIX}/${id}`,

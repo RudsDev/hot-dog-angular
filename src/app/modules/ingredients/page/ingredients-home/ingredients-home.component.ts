@@ -30,7 +30,7 @@ export class IngredientsHomeComponent implements OnInit {
         this.read()
       break;
       case CrudOperations.UPDATE:
-        this.update()
+        this.update(event.id!)
       break;
       case CrudOperations.DELETE:
         this.delete(event.id!)
@@ -49,8 +49,8 @@ export class IngredientsHomeComponent implements OnInit {
     console.log('READ')
   }
 
-  private update(): void {
-    console.log('UPDATE')
+  private update(id: string): void {
+    this.router.navigate(['/ingredients/register/', id])
   }
 
   private delete(id: string): void {
