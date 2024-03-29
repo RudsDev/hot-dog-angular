@@ -6,6 +6,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { IngredientsTinyResponse } from "../../models/interfaces/ingredients/ingredients-tiny-response";
 import { Observable } from "rxjs/internal/Observable";
 import { ToastNotificationComponent } from "../../shared/components/notifications/toast-notification/toast-notification.component";
+import { take } from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class IngredientsFacade {
@@ -24,6 +25,7 @@ export class IngredientsFacade {
   ):void {
     this.ingredientsService
       .create(ingredient)
+      .pipe(take(1))
       .subscribe({
         next: (resp: IngredientsTinyResponse) => {
           this.state.add(resp)
@@ -40,6 +42,7 @@ export class IngredientsFacade {
   public getAllIngredients(): void {
     this.ingredientsService
       .getAll()
+      .pipe(take(1))
       .subscribe(this.getAllIngredientsObservableHandler)
   }
 
