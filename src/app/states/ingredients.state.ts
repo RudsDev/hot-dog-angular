@@ -20,4 +20,11 @@ export class IngredientsState {
     this.allIngredients = [...current, ingredient]
     return ingredient
   }
+
+  public remove(id: string): void {
+    const [...current] = this._allIngredients.getValue()
+    const index = current.findIndex(i => i.id === id)
+    current.splice(index, 1)
+    this.allIngredients = current
+  }
 }

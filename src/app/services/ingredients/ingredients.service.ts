@@ -36,5 +36,12 @@ export class IngredientsService {
     );
   }
 
+  public remove(id: string): Observable<void> {
+    return this.http.delete<void>(
+      `${this.API_URL}/${ApiVersions.V1}/${this.SUFIX}/${id}`,
+      this.httpOptions
+    );
+  }
+
   constructor() {}
 }

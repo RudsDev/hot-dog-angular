@@ -1,10 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { IngredientsTinyResponse } from '../../../../models/interfaces/ingredients/ingredients-tiny-response';
 import { IngredientsFacade } from '../../../../facades/ingredients/ingredients.facade';
 import { TableCrudEvent } from '../../../../models/interfaces/event/table-crud-event';
 import { CrudOperations } from '../../../../../core/CRUD_OPERATION';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class IngredientsHomeComponent implements OnInit {
         this.update()
       break;
       case CrudOperations.DELETE:
-        this.delete()
+        this.delete(event.id!)
       break;
 
       default:
@@ -53,7 +53,7 @@ export class IngredientsHomeComponent implements OnInit {
     console.log('UPDATE')
   }
 
-  private delete(): void {
-    console.log('DELETE')
+  private delete(id: string): void {
+    this.facade.remove(id)
   }
 }

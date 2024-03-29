@@ -39,6 +39,25 @@ export class IngredientsFacade {
       })
   }
 
+  public remove(
+    id: string,
+    callbacks?: {success?: Function, error?: Function}
+  ): void {
+    this.ingredientsService
+      .remove(id)
+      .subscribe({
+        next: () => {
+          this.state.remove(id)
+          this.toast.success('Ingrediente removido com sucesso')
+          callbacks?.success && callbacks.success()
+        },
+        error: (e: HttpErrorResponse) => {
+          this.toast.error('Erro ao remover ingrediente', e)
+          callbacks?.error && callbacks.error()
+        },
+      })
+  }
+
   public getAllIngredients(): void {
     this.ingredientsService
       .getAll()
