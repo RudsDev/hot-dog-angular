@@ -27,7 +27,7 @@ export class HotDogsHomeComponent extends CrudTableEventListener implements OnIn
   }
 
   override create(event?: TableCrudEvent): void {
-    console.log('CREATE')
+    this.router.navigate(['/hotdogs/register'])
   }
   override read(event?: TableCrudEvent): void {
     console.log('READ')

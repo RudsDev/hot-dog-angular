@@ -10,11 +10,13 @@ import { HotDogsHomeComponent } from './page/hot-dogs-home/hot-dogs-home.compone
 
 import { HOTDOGS_ROUTES } from './hotdogs.routing';
 import { HotdogsTableComponent } from './components/hotdogs-table/hotdogs-table.component';
+import { HotDogsRegisterComponent } from './page/hot-dogs-register/hot-dogs-register.component';
 
 @NgModule({
   declarations: [
     HotDogsHomeComponent,
-    HotdogsTableComponent
+    HotdogsTableComponent,
+    HotDogsRegisterComponent
   ],
   imports: [
     CommonModule,
