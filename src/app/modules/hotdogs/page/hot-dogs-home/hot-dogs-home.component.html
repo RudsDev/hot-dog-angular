@@ -1,1 +1,4 @@
-<app-hotdogs-table [allHotDogs]="allHotDogs"></app-hotdogs-table>
+<app-hotdogs-table
+  [allHotDogs]="allHotDogs"
+  (tableCrudEvent)="handleCrudTableEventListener($event)"
+></app-hotdogs-table>

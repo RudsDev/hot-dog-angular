@@ -65,7 +65,7 @@
                 label="Adicionar"
                 pTooltip="Adicionar produto"
                 tooltipPosition="top"
-                (onClick)="handleHotDogEvent()"
+                (onClick)="handleCrudTableEventEmit({ action: action.CREATE })"
               ></p-button>
             </div>
           </th>
@@ -87,7 +87,7 @@
                 aria-label="Editar hotdog"
                 severity="warning"
                 [rounded]="true"
-                (onClick)="handleHotDogEvent()"
+                (onClick)="handleCrudTableEventEmit({ action: action.UPDATE })"
               ></p-button>
               <p-button
                 pRipple
@@ -96,7 +96,7 @@
                 aria-label="Editar hotdog"
                 severity="danger"
                 [rounded]="true"
-                (onClick)="handleHotDogEvent()"
+                (onClick)="handleCrudTableEventEmit({ action: action.DELETE, id: hotDog.id })"
               ></p-button>
             </div>
           </td>
