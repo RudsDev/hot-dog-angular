@@ -1,9 +1,9 @@
 <div class="w-full h-full flex bg-blue-100">
-  <div class="w-12 h-full">
-    <app-toast-notification></app-toast-notification>
-    <app-prompt></app-prompt>
+  <app-toast-notification></app-toast-notification>
+  <app-prompt></app-prompt>
+  <div class="flex flex-column w-12 h-full">
     <app-toolbar></app-toolbar>
-    <section class="p-2">
+    <section class="p-2 flex-grow-1">
       <router-outlet></router-outlet>
     </section>
   </div>
