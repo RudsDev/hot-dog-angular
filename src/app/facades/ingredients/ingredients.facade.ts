@@ -21,6 +21,10 @@ export class IngredientsFacade {
 
   constructor(){}
 
+  public get ingredients() : IngredientsTinyResponse[]{
+    return this.state.allIngredients
+  }
+
   public select(id?: string) {
     return id
       ? this.state.allIngredients.find(i => i.id == id)
@@ -107,5 +111,9 @@ export class IngredientsFacade {
         error: (e: HttpErrorResponse) => this.toast.error('Erro ao listar ingredientes', e),
       }
     )
+  }
+
+  public changeQtd(payload:{id: string, qtd:number}) {
+    this.state.qtd = payload
   }
 }

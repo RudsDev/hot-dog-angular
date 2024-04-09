@@ -31,4 +31,12 @@ export class IngredientsState {
     current.splice(index, 1)
     this.allIngredients = current
   }
+
+  public set qtd(payload: {id: string, qtd:number}) {
+    const { id, qtd } = payload
+    const [...current] = this._allIngredients.getValue()
+    const index = current.findIndex(i => i.id === id)
+    current[index].qtd = qtd
+    this.allIngredients = current
+  }
 }

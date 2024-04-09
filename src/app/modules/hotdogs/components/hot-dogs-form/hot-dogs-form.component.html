@@ -1,0 +1,68 @@
+<form
+  class="flex flex-column align-items-center h-full gap-2"
+  [formGroup]="form"
+  (ngSubmit)="handleSubmitHotdog()"
+>
+
+  <div class="w-4 bg-gray-50 p-2 pb-4 border-round-sm flex flex-column gap-2">
+    <label for="hotdogName" class="text-600">Nome</label>
+    <input id="hotdogName" pInputText placeholder="Digite o nome do lanche" formControlName="nome" class="w-full"/>
+  </div>
+
+  <div class="w-4 flex-grow-1 bg-gray-50 p-2 border-round-sm">
+
+    <p-scroller
+      [items]="ingredientFacade.ingredients$ | async"
+      [itemSize]="50"
+      [style]="{'height': '100%'}"
+    >
+      <ng-template pTemplate="item" let-ingredient let-options="options">
+
+        <div style="list-style: none" class="w-12 h-4rem p-2 flex flex-row bg-primary-50 border-round-sm shadow-1 my-2">
+          <div class="flex flex-row flex-grow-1">
+            <div class="w-2">
+              <span>IMAGE</span>
+            </div>
+
+            <div class="w-8">
+              <div class="flex flex-column h-full">
+                <span style="height: 50%;">{{ ingredient.nome }}</span>
+                <span class="text-sm" style="height: 50%;">{{ ingredient.preco | currency : "BRL" }}</span>
+              </div>
+            </div>
+
+            <app-input-number-btn
+              [id]="ingredient.id"
+              [min]="0"
+              [max]="1"
+              (valueChangeEvent)="incrementIngredient($event)"
+            />
+
+          </div>
+        </div>
+
+      </ng-template>
+    </p-scroller>
+
+  </div>
+
+
+  <div class="flex flex-row w-12 p-2 justify-content-center bg-primary-50">
+
+    <div class="flex flex-row align-items-center justify-content-between w-4">
+
+      <p class="w-2 font-semibold text-2xl text-blue-900">
+        {{ this.form.value.preco | currency : "BRL" }}
+      </p>
+      <p-button
+        type="submit"
+        label="Salvar"
+        [disabled]="this.form.invalid"
+      >
+      </p-button>
+    </div>
+
+  </div>
+
+</form>
+

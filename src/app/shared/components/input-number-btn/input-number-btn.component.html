@@ -1,0 +1,17 @@
+<div class="flex flex-row gap-2 align-items-center p-2">
+  <button
+    class="flex align-items-center justify-content-center bg-green-300 border-circle border-none change-value-button"
+    [disabled]="value == max"
+    (click)="increment()"
+  >
+    <fa-icon size="sm" [icon]="plusIcon" />
+  </button>
+  <span class="mx-1">{{ value }}</span>
+  <button
+    class="flex align-items-center justify-content-center bg-bluegray-300 border-circle border-none change-value-button"
+    [disabled]="value == min"
+    (click)="decrement()"
+  >
+    <fa-icon size="sm" [icon]="minusIcon" />
+  </button>
+</div>
