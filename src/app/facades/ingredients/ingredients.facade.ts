@@ -7,7 +7,7 @@ import { IngredientsTinyResponse } from "../../models/interfaces/ingredients/ing
 import { Observable } from "rxjs/internal/Observable";
 import { ToastNotificationComponent } from "../../shared/components/notifications/toast-notification/toast-notification.component";
 import { PromptComponent } from "../../shared/components/prompts/prompt/prompt.component";
-import { take } from "rxjs";
+import { take, map } from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class IngredientsFacade {
@@ -115,5 +115,21 @@ export class IngredientsFacade {
 
   public changeQtd(payload:{id: string, qtd:number}) {
     this.state.qtd = payload
+  }
+
+  public priceSelectedIngredients$() {
+    const filter = map((p: IngredientsTinyResponse[]) =>
+      p.filter((d) => !!d.qtd)
+    );
+
+    const mapper = map((v:IngredientsTinyResponse[],i) => {
+      return v.length
+        ? v.map(v => (Number(v.preco || 0) * Number(v.qtd || 1))).reduce((p, c) =>  p + c)
+        : 0
+    })
+
+    return this.ingredients$
+      .pipe(filter)
+      .pipe(mapper)
   }
 }
