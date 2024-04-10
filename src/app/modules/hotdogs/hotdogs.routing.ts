@@ -12,4 +12,8 @@ export const HOTDOGS_ROUTES: Routes = [
     path: 'register',
     component: HotDogsRegisterComponent,
   },
+  {
+    path: 'register/:id',
+    component: HotDogsRegisterComponent,
+  },
 ]

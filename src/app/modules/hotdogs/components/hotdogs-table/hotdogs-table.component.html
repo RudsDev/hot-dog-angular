@@ -87,7 +87,7 @@
                 aria-label="Editar hotdog"
                 severity="warning"
                 [rounded]="true"
-                (onClick)="handleCrudTableEventEmit({ action: action.UPDATE })"
+                (onClick)="handleCrudTableEventEmit({ action: action.UPDATE, id: hotDog.id })"
               ></p-button>
               <p-button
                 pRipple

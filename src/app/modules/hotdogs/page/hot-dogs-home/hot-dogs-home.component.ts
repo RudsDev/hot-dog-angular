@@ -33,7 +33,7 @@ export class HotDogsHomeComponent extends CrudTableEventListener implements OnIn
     console.log('READ')
   }
   override update(event: TableCrudEvent): void {
-    console.log('UPDATE')
+    this.router.navigate(['/hotdogs/register/', event.id])
   }
   override delete(event: TableCrudEvent): void {
     console.log('DELETE')
