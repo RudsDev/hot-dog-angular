@@ -1,0 +1,33 @@
+<p-scroller
+  [items]="ingredientFacade.ingredients$ | async"
+  [itemSize]="50"
+  [style]="{ height: '100%' }"
+>
+  <ng-template pTemplate="item" let-ingredient let-options="options">
+    <div
+      style="list-style: none"
+      class="w-12 h-4rem p-2 flex flex-row bg-primary-50 border-round-sm shadow-1 my-2"
+    >
+      <div class="flex flex-row flex-grow-1">
+        <div class="w-2">
+          <span>IMAGE</span>
+        </div>
+
+        <div class="w-8">
+          <div class="flex flex-column h-full">
+            <span style="height: 50%">{{ ingredient.nome }}</span>
+            <span class="text-sm" style="height: 50%">
+            {{ ingredient.preco | currency : "BRL" }}</span>
+          </div>
+        </div>
+
+        <app-input-number-btn
+          [id]="ingredient.id"
+          [min]="0"
+          [max]="1"
+          (valueChangeEvent)="incrementIngredient($event)"
+        />
+      </div>
+    </div>
+  </ng-template>
+</p-scroller>

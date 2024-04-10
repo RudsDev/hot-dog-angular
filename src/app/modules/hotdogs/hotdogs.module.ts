@@ -15,6 +15,7 @@ import { HotDogsRegisterComponent } from './page/hot-dogs-register/hot-dogs-regi
 import { HotDogsHomeComponent } from './page/hot-dogs-home/hot-dogs-home.component';
 import { HotDogsFormComponent } from './components/hot-dogs-form/hot-dogs-form.component';
 import { SharedModule } from '../../shared/shared.module';
+import { HotDogIngredientsComponent } from './components/hot-dog-ingredients/hot-dog-ingredients.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { SharedModule } from '../../shared/shared.module';
     HotdogsTableComponent,
     HotDogsRegisterComponent,
     HotDogsFormComponent,
+    HotDogIngredientsComponent,
   ],
   imports: [
     CommonModule,
