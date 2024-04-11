@@ -50,7 +50,7 @@ export class HotDogsFormComponent implements OnInit {
   }
 
   private priceSelectedIngredients$() {
-    return this.ingredientFacade
+    return this.hotDogFacade
       .priceSelectedIngredients$()
       .subscribe(v => this.form.patchValue({ preco: v }))
   }

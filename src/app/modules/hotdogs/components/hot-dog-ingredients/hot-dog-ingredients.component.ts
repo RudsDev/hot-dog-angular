@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { IngredientsFacade } from '../../../../facades/ingredients/ingredients.facade';
+import { HotDogsFacade } from '../../../../facades/hotdogs/hotdogs.facade';
 
 @Component({
   selector: 'app-hot-dog-ingredients',
@@ -7,14 +7,14 @@ import { IngredientsFacade } from '../../../../facades/ingredients/ingredients.f
   styleUrl: './hot-dog-ingredients.component.scss'
 })
 export class HotDogIngredientsComponent implements OnInit {
-  ingredientFacade: IngredientsFacade = inject(IngredientsFacade);
+  hotdogsFacade: HotDogsFacade = inject(HotDogsFacade);
 
   ngOnInit(): void {
-    this.ingredientFacade.getAllIngredients();
+    this.hotdogsFacade.getAllIngredients();
   }
 
   incrementIngredient(event:{ id:string, value: number }) {
     const { id, value:qtd } = event
-    this.ingredientFacade.changeQtd({ id, qtd });
+    this.hotdogsFacade.changeQtdIngredients({ id, qtd });
   }
 }

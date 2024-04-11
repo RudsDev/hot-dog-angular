@@ -2,7 +2,7 @@ import { Injectable, inject } from "@angular/core";
 
 import { Observable } from "rxjs/internal/Observable";
 
-import { take } from "rxjs";
+import { take, map } from "rxjs";
 
 import { IngredientsState } from "../../states/ingredients.state";
 
@@ -16,21 +16,26 @@ import { PromptComponent } from "../../shared/components/prompts/prompt/prompt.c
 import { HotDogsRequest } from "../../models/interfaces/hotdogs/hot-dogs-request";
 import { HotDogsState } from "../../states/hotdogs.state";
 import { IngredientQtds } from "../../models/interfaces/hotdogs/hot-dogs-ingredients-qtd";
+import { IngredientsService } from "../../services/ingredients/ingredients.service";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Injectable({providedIn: 'root'})
 export class HotDogsFacade {
   private hotdogsService: HotdogsService = inject(HotdogsService)
+  private ingredientsService: IngredientsService = inject(IngredientsService)
   private hotdogsState: HotDogsState = inject(HotDogsState)
   private ingredientState: IngredientsState = inject(IngredientsState)
   private toast:ToastNotificationComponent = inject(ToastNotificationComponent)
   private prompt:PromptComponent = inject(PromptComponent)
 
-  ingredients$: Observable<IngredientsTinyResponse[]> = this.ingredientState.allIngredients$;
-
   constructor(){}
 
   private get ingredients() : IngredientsTinyResponse[] {
     return this.ingredientState.allIngredients.filter(i => i.qtd)
+  }
+
+  public get allIngredients$ () {
+    return this.hotdogsState.allIngredients$
   }
 
   public select$(id:string) {
@@ -65,8 +70,23 @@ export class HotDogsFacade {
 
   public getAll(): void {}
 
-  public setIngredientsQtd(ingredients: Array<IngredientQtds>) {
-    this.hotdogsState.hotdogIngredients = ingredients
+  public getAllIngredients(): void {
+    this.ingredientsService
+      .getAll()
+      .pipe(take(1))
+      .subscribe({
+        next: (d: IngredientsTinyResponse[]) => this.hotdogsState.allIngredients = d?.length ? d : [],
+        error: (e: HttpErrorResponse) => this.toast.error('Erro ao listar ingredientes do hot-dog', e),
+      }
+    )
+  }
+
+  public changeQtdIngredients(payload:{id: string, qtd:number}) {
+    this.hotdogsState.qtd = payload
+  }
+
+  public setIngredientsQtd(ingredientsQtd: Array<IngredientQtds>) {
+    this.hotdogsState.ingredientsQtd = ingredientsQtd
   }
 
   private createRequestPayload(payload: HotDogsTinyResponse): HotDogsRequest {
@@ -75,5 +95,21 @@ export class HotDogsFacade {
       nome: payload.nome,
       ingredientes: this.ingredients.filter(i => i.id && i.qtd).map(i => i.id!)
     }
+  }
+
+  public priceSelectedIngredients$() {
+    const filter = map((p: IngredientsTinyResponse[]) =>
+      p.filter((d) => !!d.qtd)
+    );
+
+    const mapper = map((v:IngredientsTinyResponse[],i) => {
+      return v.length
+        ? v.map(v => (Number(v.preco || 0) * Number(v.qtd || 1))).reduce((p, c) =>  p + c)
+        : 0
+    })
+
+    return this.allIngredients$
+      .pipe(filter)
+      .pipe(mapper)
   }
 }
