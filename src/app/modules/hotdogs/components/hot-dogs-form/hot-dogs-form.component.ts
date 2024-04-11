@@ -1,11 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { HotDogsTinyResponse } from '../../../../models/interfaces/hotdogs/hot-dogs-tiny-response';
+import { HotDogsResponse } from '../../../../models/interfaces/hotdogs/hot-dogs-response';
 
 import { IngredientsFacade } from '../../../../facades/ingredients/ingredients.facade';
 import { HotDogsFacade } from '../../../../facades/hotdogs/hotdogs.facade';
+
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-hot-dogs-form',
@@ -16,9 +19,14 @@ export class HotDogsFormComponent implements OnInit {
   private router: Router = inject(Router)
   private ingredientFacade: IngredientsFacade = inject(IngredientsFacade);
   private hotDogFacade: HotDogsFacade = inject(HotDogsFacade);
+  private activatedRoute = inject(ActivatedRoute)
 
   ngOnInit(): void {
     this.priceSelectedIngredients$()
+    this.activatedRoute
+      .params
+      .pipe(take(1))
+      .subscribe(d => this.initForm(d['id']))
   }
 
   public form = new FormGroup({
@@ -54,4 +62,22 @@ export class HotDogsFormComponent implements OnInit {
       preco:  Number(this.form.value.preco).toString(),
     }
   }
+
+  private initForm(id: number) {
+    const error = () => this.router.navigate(['/ingredients/register'])
+    const next = (resp: HotDogsResponse) => {
+      this.form
+      .setValue({
+        id: resp.id,
+        nome: resp.nome,
+        preco: 0,
+      });
+      this.hotDogFacade.setIngredientsQtd(resp.ingredientes.map(i => ({ id: i.id!, qtd: 1 })))
+    }
+
+    this.hotDogFacade
+      .select$(id?.toString())
+      .subscribe({ next, error })
+  }
+
 }

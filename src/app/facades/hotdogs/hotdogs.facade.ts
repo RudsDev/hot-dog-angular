@@ -14,11 +14,13 @@ import { HotDogsTinyResponse } from "../../models/interfaces/hotdogs/hot-dogs-ti
 import { ToastNotificationComponent } from "../../shared/components/notifications/toast-notification/toast-notification.component";
 import { PromptComponent } from "../../shared/components/prompts/prompt/prompt.component";
 import { HotDogsRequest } from "../../models/interfaces/hotdogs/hot-dogs-request";
+import { HotDogsState } from "../../states/hotdogs.state";
+import { IngredientQtds } from "../../models/interfaces/hotdogs/hot-dogs-ingredients-qtd";
 
 @Injectable({providedIn: 'root'})
 export class HotDogsFacade {
   private hotdogsService: HotdogsService = inject(HotdogsService)
-  private hotdogsState: IngredientsState = inject(IngredientsState)
+  private hotdogsState: HotDogsState = inject(HotDogsState)
   private ingredientState: IngredientsState = inject(IngredientsState)
   private toast:ToastNotificationComponent = inject(ToastNotificationComponent)
   private prompt:PromptComponent = inject(PromptComponent)
@@ -31,7 +33,9 @@ export class HotDogsFacade {
     return this.ingredientState.allIngredients.filter(i => i.qtd)
   }
 
-  public select() {}
+  public select$(id:string) {
+    return this.hotdogsService.getById(id)
+  }
 
   public add(
     payload: HotDogsTinyResponse,
@@ -61,7 +65,9 @@ export class HotDogsFacade {
 
   public getAll(): void {}
 
-  public changeQtd() {}
+  public setIngredientsQtd(ingredients: Array<IngredientQtds>) {
+    this.hotdogsState.hotdogIngredients = ingredients
+  }
 
   private createRequestPayload(payload: HotDogsTinyResponse): HotDogsRequest {
     return {

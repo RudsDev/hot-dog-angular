@@ -3,6 +3,7 @@ import { GenericService } from '../generic.services';
 
 import { Observable } from 'rxjs';
 import { HotDogsTinyResponse } from '../../models/interfaces/hotdogs/hot-dogs-tiny-response';
+import { HotDogsResponse } from '../../models/interfaces/hotdogs/hot-dogs-response';
 import { HotDogsRequest } from '../../models/interfaces/hotdogs/hot-dogs-request';
 
 @Injectable({
@@ -13,6 +14,13 @@ export class HotdogsService extends GenericService {
 
   constructor() {
     super();
+  }
+
+  public getById(id:string): Observable<HotDogsResponse> {
+    return this.http.get<HotDogsResponse>(
+      `${this.API_URL}/${this.VERSIONS.V1}/${this.SUFIX}/${id}`,
+      this.httpOptions
+    );
   }
 
   public create(payload: HotDogsRequest): Observable<HotDogsTinyResponse> {
