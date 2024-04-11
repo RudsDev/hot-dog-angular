@@ -73,7 +73,7 @@ export class HotDogsFacade {
       .getAll()
       .pipe(take(1))
       .subscribe({
-        next: (d: IngredientsTinyResponse[]) => this.hotdogsState.allIngredients = d?.length ? d : [],
+        next: (d: IngredientsTinyResponse[]) => this.hotdogsState.allIngredientsWithQtds = d?.length ? d : [],
         error: (e: HttpErrorResponse) => this.toast.error('Erro ao listar ingredientes do hot-dog', e),
       }
     )

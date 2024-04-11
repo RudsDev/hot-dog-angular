@@ -25,13 +25,11 @@ export class HotDogsState {
   }
 
   public set allIngredients(allIngredients: IngredientsTinyResponse[]) {
-    console.log(this.ingredientsQtd)
+    this._allIngredients.next(allIngredients);
+  }
 
-    const value = this.ingredientsQtd.length
-    ? this.getAllIngredientsWithQtds(allIngredients)
-    : allIngredients
-
-    this._allIngredients.next(value);
+  public set allIngredientsWithQtds(allIngredients: IngredientsTinyResponse[]) {
+    this._allIngredients.next(this.getAllIngredientsWithQtds(allIngredients));
   }
 
   public get allIngredients$() {
@@ -47,13 +45,9 @@ export class HotDogsState {
   }
 
   private getAllIngredientsWithQtds(allIngredients:IngredientsTinyResponse[]) {
-    this.ingredientsQtd.forEach(payload => {
-      const { id, qtd } = payload
-      const [...currents] = allIngredients
-      const index = currents.findIndex(i => i.id === id)
-      currents[index].qtd = qtd
-      allIngredients = currents
+    return allIngredients.map(i => {
+      const index = this.ingredientsQtd.findIndex(q => q.id === i.id)
+      return { ...i, qtd: index < 0 ? 0 : (i.qtd || 1) }
     })
-    return allIngredients
   }
 }
