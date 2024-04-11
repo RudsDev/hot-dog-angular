@@ -1,7 +1,5 @@
 import { Injectable, inject } from "@angular/core";
 
-import { Observable } from "rxjs/internal/Observable";
-
 import { take, map } from "rxjs";
 
 import { IngredientsState } from "../../states/ingredients.state";
