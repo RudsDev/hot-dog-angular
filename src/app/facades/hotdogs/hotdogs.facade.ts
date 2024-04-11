@@ -7,7 +7,6 @@ import { IngredientsState } from "../../states/ingredients.state";
 import { HotdogsService } from "../../services/hotdogs/hotdogs.service";
 
 import { IngredientsTinyResponse } from "../../models/interfaces/ingredients/ingredients-tiny-response";
-import { HotDogsTinyResponse } from "../../models/interfaces/hotdogs/hot-dogs-tiny-response";
 
 import { ToastNotificationComponent } from "../../shared/components/notifications/toast-notification/toast-notification.component";
 import { PromptComponent } from "../../shared/components/prompts/prompt/prompt.component";
@@ -19,6 +18,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 
 @Injectable({providedIn: 'root'})
 export class HotDogsFacade {
+  private _ingredientsIds: string[] = []
   private hotdogsService: HotdogsService = inject(HotdogsService)
   private ingredientsService: IngredientsService = inject(IngredientsService)
   private hotdogsState: HotDogsState = inject(HotDogsState)
@@ -26,14 +26,16 @@ export class HotDogsFacade {
   private toast:ToastNotificationComponent = inject(ToastNotificationComponent)
   private prompt:PromptComponent = inject(PromptComponent)
 
-  constructor(){}
-
-  private get ingredients() : IngredientsTinyResponse[] {
-    return this.ingredientState.allIngredients.filter(i => i.qtd)
+  constructor(){
+    this.hotdogsIngredients$()
   }
 
   public get allIngredients$ () {
     return this.hotdogsState.allIngredients$
+  }
+
+  public get ingredientsIds() {
+    return this._ingredientsIds
   }
 
   public select$(id:string) {
@@ -41,12 +43,11 @@ export class HotDogsFacade {
   }
 
   public add(
-    payload: HotDogsTinyResponse,
+    payload: HotDogsRequest,
     callbacks?: {success?: Function, error?: Function}
   ):void {
-    const _payload = this.createRequestPayload(payload)
     this.hotdogsService
-      .create(_payload)
+      .create(payload)
       .pipe(take(1))
       .subscribe({
         next: (resp: IngredientsTinyResponse) => {
@@ -60,7 +61,24 @@ export class HotDogsFacade {
       })
   }
 
-  public edit():void {}
+  public edit(
+    payload: HotDogsRequest,
+    callbacks?: {success?: Function, error?: Function}
+  ):void {
+    this.hotdogsService
+      .edit(payload)
+      .pipe(take(1))
+      .subscribe({
+        next: (resp: IngredientsTinyResponse) => {
+          this.toast.success(`${resp.nome} editado com sucesso.`)
+          callbacks?.success && callbacks.success()
+        },
+        error: (e) => {
+          this.toast.error(`Erro ao editar hot-dog.`, e)
+          callbacks?.error && callbacks.error()
+        }
+      })
+  }
 
   public remove(): void {}
 
@@ -87,14 +105,6 @@ export class HotDogsFacade {
     this.hotdogsState.ingredientsQtd = ingredientsQtd
   }
 
-  private createRequestPayload(payload: HotDogsTinyResponse): HotDogsRequest {
-    return {
-      id: payload.id,
-      nome: payload.nome,
-      ingredientes: this.ingredients.filter(i => i.id && i.qtd).map(i => i.id!)
-    }
-  }
-
   public priceSelectedIngredients$() {
     const filter = map((p: IngredientsTinyResponse[]) =>
       p.filter((d) => !!d.qtd)
@@ -109,5 +119,14 @@ export class HotDogsFacade {
     return this.allIngredients$
       .pipe(filter)
       .pipe(mapper)
+  }
+
+  private hotdogsIngredients$() {
+    this.allIngredients$
+      .subscribe(i =>
+        this._ingredientsIds = i
+        .filter(i => i?.qtd)
+        .map(i => i.id!)
+      )
   }
 }

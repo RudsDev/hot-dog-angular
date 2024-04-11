@@ -2,10 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { HotDogsTinyResponse } from '../../../../models/interfaces/hotdogs/hot-dogs-tiny-response';
 import { HotDogsResponse } from '../../../../models/interfaces/hotdogs/hot-dogs-response';
+import { HotDogsRequest } from '../../../../models/interfaces/hotdogs/hot-dogs-request';
 
-import { IngredientsFacade } from '../../../../facades/ingredients/ingredients.facade';
 import { HotDogsFacade } from '../../../../facades/hotdogs/hotdogs.facade';
 
 import { take } from 'rxjs';
@@ -17,7 +16,6 @@ import { take } from 'rxjs';
 })
 export class HotDogsFormComponent implements OnInit {
   private router: Router = inject(Router)
-  private ingredientFacade: IngredientsFacade = inject(IngredientsFacade);
   private hotDogFacade: HotDogsFacade = inject(HotDogsFacade);
   private activatedRoute = inject(ActivatedRoute)
 
@@ -45,7 +43,7 @@ export class HotDogsFormComponent implements OnInit {
     const success = () => this.router.navigate(['/hotdogs'])
     const payload = this.createSubmitPayload()
     this.form.value.id
-      ? this.hotDogFacade.edit()
+      ? this.hotDogFacade.edit(payload, { success })
       : this.hotDogFacade.add(payload, { success })
   }
 
@@ -55,16 +53,16 @@ export class HotDogsFormComponent implements OnInit {
       .subscribe(v => this.form.patchValue({ preco: v }))
   }
 
-  private createSubmitPayload(): HotDogsTinyResponse {
+  private createSubmitPayload(): HotDogsRequest {
     return {
       id: this.form.value.id as string,
       nome: this.form.value.nome as string,
-      preco:  Number(this.form.value.preco).toString(),
+      ingredientes: this.hotDogFacade.ingredientsIds
     }
   }
 
   private initForm(id: number) {
-    const error = () => this.router.navigate(['/ingredients/register'])
+    const error = () => this.router.navigate(['/hotdogs'])
     const next = (resp: HotDogsResponse) => {
       this.form
       .setValue({
@@ -74,8 +72,7 @@ export class HotDogsFormComponent implements OnInit {
       });
       this.hotDogFacade.setIngredientsQtd(resp.ingredientes.map(i => ({ id: i.id!, qtd: 1 })))
     }
-
-    this.hotDogFacade
+    id && this.hotDogFacade
       .select$(id?.toString())
       .subscribe({ next, error })
   }

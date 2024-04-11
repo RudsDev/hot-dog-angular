@@ -31,6 +31,14 @@ export class HotdogsService extends GenericService {
     );
   }
 
+  public edit(payload: HotDogsRequest): Observable<HotDogsTinyResponse> {
+    return this.http.put<HotDogsTinyResponse>(
+      `${this.API_URL}/${this.VERSIONS.V1}/${this.SUFIX}/${payload.id}`,
+      payload,
+      this.httpOptions
+    );
+  }
+
   public getAll(): Observable<Array<HotDogsTinyResponse>> {
     return this.http.get<Array<HotDogsTinyResponse>>(
       `${this.API_URL}/${this.VERSIONS.V1}/${this.SUFIX}`,
