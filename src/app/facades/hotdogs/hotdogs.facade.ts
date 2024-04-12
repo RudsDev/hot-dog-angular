@@ -2,12 +2,9 @@ import { Injectable, inject } from "@angular/core";
 
 import { take, map } from "rxjs";
 
-import { IngredientsState } from "../../states/ingredients.state";
-
 import { HotdogsService } from "../../services/hotdogs/hotdogs.service";
 
 import { IngredientsTinyResponse } from "../../models/interfaces/ingredients/ingredients-tiny-response";
-
 import { ToastNotificationComponent } from "../../shared/components/notifications/toast-notification/toast-notification.component";
 import { PromptComponent } from "../../shared/components/prompts/prompt/prompt.component";
 import { HotDogsRequest } from "../../models/interfaces/hotdogs/hot-dogs-request";
@@ -22,7 +19,6 @@ export class HotDogsFacade {
   private hotdogsService: HotdogsService = inject(HotdogsService)
   private ingredientsService: IngredientsService = inject(IngredientsService)
   private hotdogsState: HotDogsState = inject(HotDogsState)
-  private ingredientState: IngredientsState = inject(IngredientsState)
   private toast:ToastNotificationComponent = inject(ToastNotificationComponent)
   private prompt:PromptComponent = inject(PromptComponent)
 
