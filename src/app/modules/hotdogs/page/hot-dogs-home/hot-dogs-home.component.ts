@@ -8,6 +8,7 @@ import { HotdogsService } from '../../../../services/hotdogs/hotdogs.service';
 import { HotDogsTinyResponse } from '../../../../models/interfaces/hotdogs/hot-dogs-tiny-response';
 import CrudTableEventListener from '../../../../shared/models/interfaces/CrudTableEventListener';
 import { TableCrudEvent } from '../../../../models/interfaces/event/table-crud-event';
+import { HotDogsFacade } from '../../../../facades/hotdogs/hotdogs.facade';
 
 @Component({
   selector: 'app-hot-dogs-home',
@@ -19,6 +20,7 @@ export class HotDogsHomeComponent extends CrudTableEventListener implements OnIn
   private readonly destroy$: Subject<void> = new Subject()
 
   private hotdogsService: HotdogsService = inject(HotdogsService)
+  private facade: HotDogsFacade = inject(HotDogsFacade)
 
   allHotDogs: Array<HotDogsTinyResponse> = []
 
@@ -36,7 +38,8 @@ export class HotDogsHomeComponent extends CrudTableEventListener implements OnIn
     this.router.navigate(['/hotdogs/register/', event.id])
   }
   override delete(event: TableCrudEvent): void {
-    console.log('DELETE')
+    const success = () => this.remove(event.id!)
+    this.facade.remove(event.id!, { success })
   }
 
   private getAllHotDogs(): void {
@@ -59,6 +62,13 @@ export class HotDogsHomeComponent extends CrudTableEventListener implements OnIn
 
   private handleErrorGetAllHotDogs(error: HttpErrorResponse) {
     console.log(error)
+  }
+
+  private remove(id: string): void {
+    const [...current] = this.allHotDogs
+    const index = current.findIndex(i => i.id === id)
+    current.splice(index, 1)
+    this.allHotDogs = current
   }
 
   ngOnDestroy(): void {

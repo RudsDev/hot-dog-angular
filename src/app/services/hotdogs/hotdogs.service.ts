@@ -45,4 +45,11 @@ export class HotdogsService extends GenericService {
       this.httpOptions
     );
   }
+
+  public remove(id: string): Observable<void> {
+    return this.http.delete<void>(
+      `${this.API_URL}/${this.VERSIONS.V1}/${this.SUFIX}/${id}`,
+      this.httpOptions
+    );
+  }
 }

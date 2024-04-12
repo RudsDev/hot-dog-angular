@@ -80,9 +80,35 @@ export class HotDogsFacade {
       })
   }
 
-  public remove(): void {}
+  public remove(
+    id: string,
+    callbacks?: {success?: Function, error?: Function}
+  ): void {
+    this.prompt.showDialog({
+      header: 'Remover Hot-Dog',
+      message: 'Deseja remover o hot-dog?',
+      accept: () => this.removeAccept(id, callbacks)
+    })
+  }
 
-  private removeAccept() {}
+  private removeAccept(
+    id: string,
+    callbacks?: {success?: Function, error?: Function}
+  ) {
+    this.hotdogsService
+      .remove(id)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.toast.success('Hot-dog removido com sucesso')
+          callbacks?.success && callbacks.success()
+        },
+        error: (e: HttpErrorResponse) => {
+          this.toast.error('Erro ao remover Hot-dog', e)
+          callbacks?.error && callbacks.error()
+        },
+      })
+  }
 
   public getAll(): void {}
 
