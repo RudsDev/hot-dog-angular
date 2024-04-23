@@ -1,0 +1,48 @@
+<form
+  class="flex flex-column align-items-center h-full gap-2"
+  [formGroup]="form"
+  (ngSubmit)="handleSubmit()"
+>
+  <div class="w-6 bg-gray-50 border-round-sm">
+    <div class="w-12 py-4 px-2 flex flex-column gap-2">
+      <label for="promotionName" class="text-600">Nome</label>
+      <input
+        id="promotionName"
+        pInputText
+        placeholder="Digite o nome da promoção"
+        formControlName="nome"
+        class="w-full"
+      />
+    </div>
+
+    <div class="w-12 pb-4 px-2 flex flex-row gap-2">
+      <p-dropdown
+        placeholder="Tipo de cálculo"
+        formControlName="tipo"
+        optionLabel="label"
+        optionValue="type"
+        [showClear]="false"
+        [options]="ALL_TYPES"
+        (onChange)="selectPromotion($event)"
+      >
+        <ng-template let-promotion pTemplate="item">
+          <div class="flex align-items-center gap-2">
+            <div>{{ promotion.label }}</div>
+            <i
+              [className]="promotion.icon"
+              [style]="{ color: promotion.color }"
+            ></i>
+          </div>
+        </ng-template>
+      </p-dropdown>
+
+      <span class="p-input-icon-left">
+        <i *ngIf="facade.promotion"
+          [className]="facade.promotion.icon"
+          [style]="{ color: facade.promotion.color }"
+        ></i>
+        <input id="promtionValue" pInputText formControlName="baseCalculo" />
+      </span>
+    </div>
+  </div>
+</form>

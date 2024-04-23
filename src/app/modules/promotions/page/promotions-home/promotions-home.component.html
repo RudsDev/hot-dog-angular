@@ -1,1 +1,4 @@
-<app-promotions-table [allPromotions]="allPromotions"></app-promotions-table>
+<app-promotions-table
+  [allPromotions]="allPromotions"
+  (tableCrudEvent)="handleCrudTableEventListener($event)"
+></app-promotions-table>

@@ -6,23 +6,39 @@ import { CardModule } from "primeng/card";
 import { TableModule } from "primeng/table";
 import { ButtonModule } from "primeng/button";
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+
 import { PromotionsHomeComponent } from './page/promotions-home/promotions-home.component';
+import { PromotionsFormComponent } from './components/promotions-form/promotions-form.component';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PROMOTIONS_ROUTES } from './promotions.routing';
 import { PromotionsTableComponent } from './components/promotions-table/promotions-table.component';
+import { PromotionsRegisterComponent } from './page/promotions-register/promotions-register.component';
 
 
 @NgModule({
   declarations: [
     PromotionsHomeComponent,
-    PromotionsTableComponent
+    PromotionsTableComponent,
+    PromotionsRegisterComponent,
+    PromotionsFormComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(PROMOTIONS_ROUTES),
+    ReactiveFormsModule,
+    FormsModule,
     CardModule,
     TableModule,
     ButtonModule,
+    InputTextModule,
+    DropdownModule,
+    FontAwesomeModule,
   ]
 })
 export class PromotionsModule { }

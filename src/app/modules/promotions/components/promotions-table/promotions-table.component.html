@@ -84,7 +84,7 @@
                 icon="pi pi-plus"
                 label="Adicionar"
                 tooltipPosition="top"
-                (onClick)="handlePromotionsEvent()"
+                (onClick)="handleCrudTableEventEmit({ action: action.CREATE })"
               ></p-button>
             </div>
           </th>
@@ -107,7 +107,7 @@
                 aria-label="Editar promoção"
                 severity="warning"
                 [rounded]="true"
-                (onClick)="handlePromotionsEvent()"
+                (onClick)="handleCrudTableEventEmit({ action: action.UPDATE, id: promotion.id })"
               ></p-button>
               <p-button
                 pRipple
@@ -116,7 +116,7 @@
                 aria-label="Editar promoção"
                 severity="danger"
                 [rounded]="true"
-                (onClick)="handlePromotionsEvent()"
+                (onClick)="handleCrudTableEventEmit({ action: action.DELETE, id: promotion.id })"
               ></p-button>
             </div>
           </td>
