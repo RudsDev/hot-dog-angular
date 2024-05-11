@@ -3,6 +3,7 @@ import { GenericService } from '../generic.services';
 
 import { Observable } from 'rxjs';
 import { PromotionsTinyResponse } from '../../models/interfaces/promotions/promotions-tiny-response';
+import { PromotionsResponse } from '../../models/interfaces/promotions/promotions-response';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,8 @@ export class PromotionsService extends GenericService {
     throw new Error("Method not implemented.");
   }
 
-  public getById(id:string): Observable<any> {
-    return this.http.get<any>(
+  public getById(id:string): Observable<PromotionsResponse> {
+    return this.http.get<PromotionsResponse>(
       `${this.API_URL}/${this.VERSIONS.V1}/${this.SUFIX}/${id}`,
       this.httpOptions
     );

@@ -11,6 +11,7 @@ import { PromotionsState } from "../../states/promotions.state";
 import { PromotionsService } from "../../services/promotions/promotions.service";
 import { ToastNotificationComponent } from "../../shared/components/notifications/toast-notification/toast-notification.component";
 import { PromptComponent } from "../../shared/components/prompts/prompt/prompt.component";
+import { PromotionsResponse } from "../../models/interfaces/promotions/promotions-response";
 
 @Injectable({providedIn: 'root'})
 export class PromotionsFacade {
@@ -24,30 +25,30 @@ export class PromotionsFacade {
 
   constructor(){}
 
+  public get promotion$() {
+    return this.state.promotion$
+  }
+
+  public get promotion() : PromotionsResponse | undefined{
+    return this.state.promotion$.value
+  }
+
   public get promotions() : PromotionsTinyResponse[]{
     return this.state.allPromotions
   }
 
-  public set promotion(promotion: TipoCalculoType) {
-    this.state.selectedPromotion$ = promotion
+  public set promotionType(promotion: TipoCalculoType) {
+    this.state.promotionType = promotion
   }
 
-  public get promotion() {
-    return this.state.selectedPromotion!
+  public get promotionType() {
+    return this.state.promotionType!
   }
 
-  public get promotion$() {
-    return this.state.selectedPromotion$
-  }
-
-  public select$(id:string) {
-    return this.promotionsService.getById(id)
-  }
-
-  public select(id?: string) {
-    return id
-      ? this.state.allPromotions.find(i => i.id == id)
-      : undefined
+  public getById$(id:string) {
+    return this.promotionsService
+      .getById(id)
+      .subscribe(resp => this.state.promotion$ = resp)
   }
 
   public add(

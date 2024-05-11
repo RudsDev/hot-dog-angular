@@ -2,22 +2,33 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { PromotionsTinyResponse } from "../models/interfaces/promotions/promotions-tiny-response";
 import { TipoCalculoType } from "../models/enums/tipo-calculo";
+import { PromotionsResponse } from "../models/interfaces/promotions/promotions-response";
 
 @Injectable({providedIn: 'root'})
 export class PromotionsState {
 
-  private readonly _selectedPromotion$ = new BehaviorSubject<TipoCalculoType | undefined>(undefined)
+  private readonly _promotion$ = new BehaviorSubject<PromotionsResponse | undefined>(undefined)
 
-  public get selectedPromotion(): TipoCalculoType | undefined {
-    return this._selectedPromotion$.getValue();
+  public set promotion$(promotion: PromotionsResponse) {
+    this._promotion$.next(promotion);
   }
 
-  public get selectedPromotion$(): BehaviorSubject<TipoCalculoType | undefined> {
-    return this._selectedPromotion$;
+  public get promotion$(): BehaviorSubject<PromotionsResponse | undefined> {
+    return this._promotion$;
   }
 
-  public set selectedPromotion$(selectedPromotion: TipoCalculoType) {
-    this._selectedPromotion$.next(selectedPromotion);
+  private readonly _promotionType$ = new BehaviorSubject<TipoCalculoType | undefined>(undefined)
+
+  public get promotionType(): TipoCalculoType | undefined {
+    return this._promotionType$.getValue();
+  }
+
+  public get promotionType$(): BehaviorSubject<TipoCalculoType | undefined> {
+    return this._promotionType$;
+  }
+
+  public set promotionType(selectedPromotion: TipoCalculoType) {
+    this._promotionType$.next(selectedPromotion);
   }
 
   private readonly _allPromotions = new BehaviorSubject<Array<PromotionsTinyResponse>>([])
