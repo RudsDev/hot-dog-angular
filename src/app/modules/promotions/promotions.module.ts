@@ -19,6 +19,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PROMOTIONS_ROUTES } from './promotions.routing';
 import { PromotionsTableComponent } from './components/promotions-table/promotions-table.component';
 import { PromotionsRegisterComponent } from './page/promotions-register/promotions-register.component';
+import { PromotionsItemsComponent } from './components/promotions-items/promotions-items.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { PromotionsRegisterComponent } from './page/promotions-register/promotio
     PromotionsHomeComponent,
     PromotionsTableComponent,
     PromotionsRegisterComponent,
-    PromotionsFormComponent
+    PromotionsFormComponent,
+    PromotionsItemsComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,9 @@
+<p>promotions-items works!</p>
+
+<div *ngFor="let item of this.facade.promotion?.itens">
+  <pre>
+    <p>
+        {{ item.lanche.nome }}: {{ item.quantidade }}
+    </p>
+  </pre>
+</div>

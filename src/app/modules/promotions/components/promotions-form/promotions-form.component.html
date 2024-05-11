@@ -37,12 +37,17 @@
       </p-dropdown>
 
       <span class="p-input-icon-left">
-        <i *ngIf="facade.promotion"
-          [className]="facade.promotion.icon"
-          [style]="{ color: facade.promotion.color }"
+        <i *ngIf="facade.promotionType"
+          [className]="facade.promotionType.icon"
+          [style]="{ color: facade.promotionType.color }"
         ></i>
         <input id="promtionValue" pInputText formControlName="baseCalculo" />
       </span>
     </div>
   </div>
+
+  <div class="w-4 flex-grow-1 bg-gray-50 p-2 border-round-sm">
+    <app-promotions-items/>
+  </div>
+
 </form>

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { DropdownChangeEvent } from 'primeng/dropdown';
 
@@ -8,7 +8,7 @@ import { take } from 'rxjs';
 
 import { PromotionsFacade } from '../../../../facades/promotions/promotions.facade';
 import { TipoCalculo, TipoCalculoType } from '../../../../models/enums/tipo-calculo';
-import { PromotionsTinyResponse } from '../../../../models/interfaces/promotions/promotions-tiny-response';
+import { PromotionsResponse } from '../../../../models/interfaces/promotions/promotions-response';
 
 @Component({
   selector: 'app-promotions-form',
@@ -38,11 +38,8 @@ export class PromotionsFormComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.promotionSubscriber()
-    this.activatedRoute
-      .params
-      .pipe(take(1))
-      .subscribe(d => this.initForm(d['id']))
+    this.loadPromotion()
+    this.loadForm()
   }
 
   handleSubmit() {
@@ -54,7 +51,7 @@ export class PromotionsFormComponent implements OnInit {
   }
 
   selectPromotion(e:DropdownChangeEvent) {
-    this.facade.promotion = this.findType(e.value)
+    this.setPromotionType(e.value)
   }
 
   private createSubmitPayload(): any {
@@ -65,32 +62,35 @@ export class PromotionsFormComponent implements OnInit {
     }
   }
 
-  private promotionSubscriber(){
-    this.facade.promotion$
-      .subscribe(v => {
-        if(v) this.form.value.tipo = v.type
-      })
-  }
-
-  private initForm(id: number) {
+  private loadPromotion() {
     const error = () => this.router.navigate(this.PROMOTIONS_URL)
-    const next = (resp: PromotionsTinyResponse) => {
-      this.form
-      .setValue({
-        id: resp.id,
-        nome: resp.nome,
-        tipo: resp.tipoCalculo,
-        baseCalculo: resp.baseCalculo,
-      });
-      this.facade.promotion = this.findType(resp.tipoCalculo)
-    }
-    id && this.facade
-      .select$(id?.toString())
+    const next = (d:Params) => this.facade.getById$(d['id']?.toString())
+    this.activatedRoute
+      .params
+      .pipe(take(1))
       .subscribe({ next, error })
   }
 
-  private findType(type: number): TipoCalculoType {
-    return this.ALL_TYPES.find(i => i.type === type)!;
+  private loadForm() {
+    const error = () => this.router.navigate(this.PROMOTIONS_URL)
+    const next = (resp: PromotionsResponse|undefined) => {
+      if(resp) {
+        this.form
+        .setValue({
+          id: resp.id,
+          nome: resp.nome,
+          tipo: resp.tipoCalculo,
+          baseCalculo: resp.baseCalculo,
+        });
+        this.setPromotionType(resp.tipoCalculo);
+      }
+    }
+    this.facade.promotion$.subscribe({next, error})
+  }
+
+  private setPromotionType(tipoCalculo: number) {
+    const findType = (type: number) => this.ALL_TYPES.find(i => i.type === type)!
+    this.facade.promotionType = findType(tipoCalculo);
   }
 
 }
