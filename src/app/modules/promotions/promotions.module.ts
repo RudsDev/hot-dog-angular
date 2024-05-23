@@ -20,6 +20,7 @@ import { PROMOTIONS_ROUTES } from './promotions.routing';
 import { PromotionsTableComponent } from './components/promotions-table/promotions-table.component';
 import { PromotionsRegisterComponent } from './page/promotions-register/promotions-register.component';
 import { PromotionsItemsComponent } from './components/promotions-items/promotions-items.component';
+import { SharedModule } from "../../shared/shared.module";
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { PromotionsItemsComponent } from './components/promotions-items/promotio
     InputTextModule,
     DropdownModule,
     FontAwesomeModule,
+    SharedModule
   ]
 })
 export class PromotionsModule { }

@@ -4,9 +4,12 @@ import { BehaviorSubject, Observable } from "rxjs";
 
 import { IngredientQtds } from "../models/interfaces/hotdogs/hot-dogs-ingredients-qtd";
 import { IngredientsTinyResponse } from "../models/interfaces/ingredients/ingredients-tiny-response";
+import { HotDogsTinyResponse } from "../models/interfaces/hotdogs/hot-dogs-tiny-response";
 
 @Injectable({providedIn: 'root'})
 export class HotDogsState {
+
+  private readonly _allHotDogs$ = new BehaviorSubject<Array<HotDogsTinyResponse>>([])
 
   private readonly _ingredientsQtd = new BehaviorSubject<Array<IngredientQtds>>([])
 
@@ -42,6 +45,26 @@ export class HotDogsState {
     const index = current.findIndex(i => i.id === id)
     current[index].qtd = qtd
     this.allIngredients = current
+  }
+
+  public set allHotDogs(hotDogs: Array<HotDogsTinyResponse>) {
+    this._allHotDogs$.next(hotDogs);
+  }
+
+  public get allHotDogs$(): Observable<Array<HotDogsTinyResponse>> {
+    return this._allHotDogs$.asObservable();
+  }
+
+  public get allHotDogs(): Array<HotDogsTinyResponse> {
+    return this._allHotDogs$.getValue();
+  }
+
+  public set allHotDogsQtd(payload: IngredientQtds) {
+    const { id, qtd } = payload
+    const [...current] = this._allHotDogs$.getValue()
+    const index = current.findIndex(i => i.id.toString() == id)
+    current[index].quantidade = qtd
+    this.allHotDogs = current
   }
 
   private getAllIngredientsWithQtds(allIngredients:IngredientsTinyResponse[]) {

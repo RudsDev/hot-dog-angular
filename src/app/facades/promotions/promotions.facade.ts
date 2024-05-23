@@ -3,7 +3,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 
 import { Observable } from "rxjs/internal/Observable";
 
-import { take } from "rxjs";
+import { filter, map, take } from "rxjs";
 
 import { TipoCalculoType } from "../../models/enums/tipo-calculo";
 import { PromotionsTinyResponse } from "../../models/interfaces/promotions/promotions-tiny-response";
@@ -12,11 +12,13 @@ import { PromotionsService } from "../../services/promotions/promotions.service"
 import { ToastNotificationComponent } from "../../shared/components/notifications/toast-notification/toast-notification.component";
 import { PromptComponent } from "../../shared/components/prompts/prompt/prompt.component";
 import { PromotionsResponse } from "../../models/interfaces/promotions/promotions-response";
+import { HotDogsFacade } from "../hotdogs/hotdogs.facade";
 
 @Injectable({providedIn: 'root'})
 export class PromotionsFacade {
 
   private promotionsService: PromotionsService = inject(PromotionsService)
+  private hotDogsFacade: HotDogsFacade = inject(HotDogsFacade)
   private state: PromotionsState = inject(PromotionsState)
   private toast:ToastNotificationComponent = inject(ToastNotificationComponent)
   private prompt:PromptComponent = inject(PromptComponent)
@@ -45,8 +47,18 @@ export class PromotionsFacade {
     return this.state.promotionType!
   }
 
-  public getById$(id:string) {
-    return this.promotionsService
+  public get hotDogs() {
+    return this.hotDogsFacade.allHotDogs
+  }
+
+  public loadPromotion(id: string) {
+    this.setHotDogQtdsSubscriber$()
+    this.hotDogsFacade.loadHotDogsFromAPi()
+    this.getPromotionByIdFromApi(id)
+  }
+
+  private getPromotionByIdFromApi(id:string) {
+    this.promotionsService
       .getById(id)
       .subscribe(resp => this.state.promotion$ = resp)
   }
@@ -102,6 +114,17 @@ export class PromotionsFacade {
     })
   }
 
+  public getAllPromotions(): void {
+    this.promotionsService
+      .getAll()
+      .pipe(take(1))
+      .subscribe({
+        next: (d: PromotionsTinyResponse[]) => this.state.allPromotions = d?.length ? d : [],
+        error: (e: HttpErrorResponse) => this.toast.error('Erro ao listar promoções', e),
+      }
+    )
+  }
+
   private removePromotionAccept(
     id: string,
     callbacks?: {success?: Function, error?: Function}
@@ -122,14 +145,12 @@ export class PromotionsFacade {
       })
   }
 
-  public getAllPromotions(): void {
-    this.promotionsService
-      .getAll()
-      .pipe(take(1))
-      .subscribe({
-        next: (d: PromotionsTinyResponse[]) => this.state.allPromotions = d?.length ? d : [],
-        error: (e: HttpErrorResponse) => this.toast.error('Erro ao listar promoções', e),
-      }
-    )
+  private setHotDogQtdsSubscriber$() {
+    const mapQtd = (p: PromotionsResponse) => p?.itens.map(i => ({ lancheId: i.lanche.id.toString(), quantidade: i.quantidade })) || []
+    const next = (res:{ lancheId: string; quantidade: number; }[]) => this.hotDogsFacade.allHotDogsQtds = res
+    this.promotion$
+      .pipe(filter(p => !!p))
+      .pipe(map(p => mapQtd(p!)))
+      .subscribe({ next })
   }
 }

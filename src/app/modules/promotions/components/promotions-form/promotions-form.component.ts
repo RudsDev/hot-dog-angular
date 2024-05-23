@@ -58,13 +58,13 @@ export class PromotionsFormComponent implements OnInit {
     return {
       id: this.form.value.id as string,
       nome: this.form.value.nome as string,
-      ingredientes: this.facade.promotions
+      ingredientes: this.facade.hotDogs
     }
   }
 
   private loadPromotion() {
     const error = () => this.router.navigate(this.PROMOTIONS_URL)
-    const next = (d:Params) => this.facade.getById$(d['id']?.toString())
+    const next = (d:Params) => this.facade.loadPromotion(d['id']?.toString())
     this.activatedRoute
       .params
       .pipe(take(1))

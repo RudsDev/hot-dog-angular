@@ -12,6 +12,7 @@ import { HotDogsState } from "../../states/hotdogs.state";
 import { IngredientQtds } from "../../models/interfaces/hotdogs/hot-dogs-ingredients-qtd";
 import { IngredientsService } from "../../services/ingredients/ingredients.service";
 import { HttpErrorResponse } from "@angular/common/http";
+import { HotDogsTinyResponse } from "../../models/interfaces/hotdogs/hot-dogs-tiny-response";
 
 @Injectable({providedIn: 'root'})
 export class HotDogsFacade {
@@ -24,6 +25,26 @@ export class HotDogsFacade {
 
   constructor(){
     this.hotdogsIngredients$()
+  }
+
+  public set allHotDogs(allHotDogs: Array<HotDogsTinyResponse>) {
+    this.hotdogsState.allHotDogs = allHotDogs
+  }
+
+  public get allHotDogs$ () {
+    return this.hotdogsState.allHotDogs$
+  }
+
+  public get allHotDogs () {
+    return this.hotdogsState.allHotDogs
+  }
+
+  public set allHotDogsQtds(items: { lancheId: string, quantidade: number }[]) {
+    const allHotDogsWithQtd =  this.allHotDogs.map(h => {
+      const index = items.findIndex(i => i.lancheId == h.id)
+      return { ...h, quantidade: index < 0 ? 0 : (items[index]?.quantidade || 1) }
+    })
+    this.allHotDogs = allHotDogsWithQtd
   }
 
   public get allIngredients$ () {
@@ -141,6 +162,18 @@ export class HotDogsFacade {
     return this.allIngredients$
       .pipe(filter)
       .pipe(mapper)
+  }
+
+  public loadHotDogsFromAPi() {
+    this.hotdogsService
+      .getAll()
+      .subscribe(resp => {
+        this.hotdogsState.allHotDogs = resp
+      })
+  }
+
+  public hotDogsQtd(payload: IngredientQtds) {
+    this.hotdogsState.allHotDogsQtd = payload
   }
 
   private hotdogsIngredients$() {

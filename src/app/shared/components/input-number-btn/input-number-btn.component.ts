@@ -28,12 +28,12 @@ export class InputNumberBtnComponent implements OnInit {
   }
 
   public decrement() {
-    if (this.value > this.min)
+    if (this.min < 0 || this.value > this.min)
       this.valueChangeEvent.emit({ id: this.id, value: --this.value });
   }
 
   public increment() {
-    if (this.value < this.max)
+    if (this.max < 0 || this.value < this.max)
     this.valueChangeEvent.emit({ id: this.id, value: ++this.value });
   }
 }
