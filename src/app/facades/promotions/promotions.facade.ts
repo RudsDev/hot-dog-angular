@@ -146,11 +146,9 @@ export class PromotionsFacade {
   }
 
   private setHotDogQtdsSubscriber$() {
-    const mapQtd = (p: PromotionsResponse) => p?.itens.map(i => ({ lancheId: i.lanche.id.toString(), quantidade: i.quantidade })) || []
-    const next = (res:{ lancheId: string; quantidade: number; }[]) => this.hotDogsFacade.allHotDogsQtds = res
     this.promotion$
       .pipe(filter(p => !!p))
-      .pipe(map(p => mapQtd(p!)))
-      .subscribe({ next })
+      .pipe(map(p => new PromotionsResponse(p!)))
+      .subscribe(res => this.hotDogsFacade.allHotDogsQtds = res.lanchesQtds)
   }
 }

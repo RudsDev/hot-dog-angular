@@ -13,6 +13,7 @@ import { IngredientQtds } from "../../models/interfaces/hotdogs/hot-dogs-ingredi
 import { IngredientsService } from "../../services/ingredients/ingredients.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { HotDogsTinyResponse } from "../../models/interfaces/hotdogs/hot-dogs-tiny-response";
+import { PayloadQtds } from "../../models/interfaces/types";
 
 @Injectable({providedIn: 'root'})
 export class HotDogsFacade {
@@ -39,9 +40,9 @@ export class HotDogsFacade {
     return this.hotdogsState.allHotDogs
   }
 
-  public set allHotDogsQtds(items: { lancheId: string, quantidade: number }[]) {
+  public set allHotDogsQtds(items: PayloadQtds[]) {
     const allHotDogsWithQtd =  this.allHotDogs.map(h => {
-      const index = items.findIndex(i => i.lancheId == h.id)
+      const index = items.findIndex(i => i.id == h.id)
       return { ...h, quantidade: index < 0 ? 0 : (items[index]?.quantidade || 1) }
     })
     this.allHotDogs = allHotDogsWithQtd
