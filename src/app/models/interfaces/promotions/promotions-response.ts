@@ -7,6 +7,7 @@ export class PromotionsResponse {
   private _baseCalculo:number
   private _tipoCalculo:number
   private _itens: PromotionItemResponse[]
+  private _preco: string
 
   constructor ( p:PromotionsResponse ) {
     this._id = p.id
@@ -14,6 +15,7 @@ export class PromotionsResponse {
     this._baseCalculo = p.baseCalculo
     this._tipoCalculo = p.tipoCalculo
     this._itens = p.itens
+    this._preco = p.preco
   }
 
   public get id() {
@@ -34,6 +36,10 @@ export class PromotionsResponse {
 
   public get itens() {
     return this._itens
+  }
+
+  public get preco() {
+    return this._preco
   }
 
   public get lanchesQtds() {
