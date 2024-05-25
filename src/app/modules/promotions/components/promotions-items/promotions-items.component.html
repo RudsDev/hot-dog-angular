@@ -1,12 +1,12 @@
 <p-scroller
+  styleClass="h-full"
   [items]="this.facade.hotDogs"
   [itemSize]="50"
-  [style]="{ height: '100%' }"
 >
   <ng-template pTemplate="item" let-item let-options="options">
     <div
       style="list-style: none"
-      class="w-12 h-4rem p-2 flex flex-row bg-primary-50 border-round-sm shadow-1 my-2"
+      class="h-4rem w-12 p-2 my-2 flex flex-row bg-gray-50 hover:bg-gray-200 border-round-sm shadow-1 hover:shadow-3"
     >
       <div class="flex flex-row flex-grow-1">
         <div class="w-2">
@@ -17,7 +17,8 @@
           <div class="flex flex-column h-full">
             <span style="height: 50%">{{ item.nome }}</span>
             <span class="text-sm" style="height: 50%">
-            {{ item.preco | currency : "BRL" }}</span>
+              {{ item.preco | currency : "BRL" }}
+              </span>
           </div>
         </div>
 
@@ -27,7 +28,7 @@
           [max]="-1"
           [valueShow]="item.quantidade"
           (valueChangeEvent)="incrementItem($event)"
-          />
+        />
       </div>
     </div>
   </ng-template>
