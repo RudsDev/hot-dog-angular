@@ -165,6 +165,29 @@ export class HotDogsFacade {
       .pipe(mapper)
   }
 
+  public priceSelectedsHotDogs() {
+    return this.allHotDogs
+      .filter(p => !!p)
+      .map(p => (Number(p.preco)) * Number(p.quantidade))
+      .reduce((p, c) =>  p + c)
+  }
+
+  public priceSelectedsHotDogs$() {
+    const filter = map((p:HotDogsTinyResponse[]) =>
+      p.filter((d) => !!d.quantidade)
+    );
+
+    const mapper = map((v:HotDogsTinyResponse[],i) => {
+      return v.length
+        ? v.map(v => (Number(v.preco || 0) * Number(v.quantidade || 1))).reduce((p, c) =>  p + c)
+        : 0
+    })
+
+    return this.allHotDogs$
+      .pipe(filter)
+      .pipe(mapper)
+  }
+
   public loadHotDogsFromAPi() {
     this.hotdogsService
       .getAll()

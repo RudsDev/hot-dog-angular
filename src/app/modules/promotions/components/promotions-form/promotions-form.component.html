@@ -56,7 +56,7 @@
 
   <div class="h-4rem w-10 p-2 flex align-items-center justify-content-between h-4rem font-bold border-round m-2 bg-gray-50">
     <p class="w-2 font-semibold text-2xl text-blue-900">
-      {{ facade.promotion?.preco| currency : "BRL" }}
+      {{ facade.price | async | currency : "BRL" }}
     </p>
     <p-button type="submit" label="Salvar" [disabled]="this.form.invalid"></p-button>
   </div>

@@ -31,6 +31,20 @@ export class PromotionsState {
     this._promotionType$.next(selectedPromotion);
   }
 
+  private readonly _promotionBase$ = new BehaviorSubject<number>(-1)
+
+  public get promotionBase(): number {
+    return this._promotionBase$.getValue();
+  }
+
+  public get promotionBase$(): BehaviorSubject<number> {
+    return this._promotionBase$;
+  }
+
+  public set promotionBase(value: number) {
+    this._promotionBase$.next(value);
+  }
+
   private readonly _allPromotions = new BehaviorSubject<Array<PromotionsTinyResponse>>([])
 
   public get allPromotions$(): Observable<PromotionsTinyResponse[]> {

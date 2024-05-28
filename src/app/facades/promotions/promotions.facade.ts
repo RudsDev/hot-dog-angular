@@ -3,9 +3,9 @@ import { HttpErrorResponse } from "@angular/common/http";
 
 import { Observable } from "rxjs/internal/Observable";
 
-import { filter, map, take } from "rxjs";
+import { BehaviorSubject, filter, map, take } from "rxjs";
 
-import { TipoCalculoType } from "../../models/enums/tipo-calculo";
+import { TipoCalculo, TipoCalculoType } from "../../models/enums/tipo-calculo";
 import { PromotionsTinyResponse } from "../../models/interfaces/promotions/promotions-tiny-response";
 import { PromotionsState } from "../../states/promotions.state";
 import { PromotionsService } from "../../services/promotions/promotions.service";
@@ -22,10 +22,19 @@ export class PromotionsFacade {
   private state: PromotionsState = inject(PromotionsState)
   private toast:ToastNotificationComponent = inject(ToastNotificationComponent)
   private prompt:PromptComponent = inject(PromptComponent)
+  private _price:BehaviorSubject<number> = new BehaviorSubject(0)
 
   promotions$: Observable<PromotionsTinyResponse[]> = this.state.allPromotions$;
 
   constructor(){}
+
+  public get price():BehaviorSubject<number> {
+    return this._price
+  }
+
+  public set price(value: number) {
+    this._price.next(value)
+  }
 
   public get promotion$() {
     return this.state.promotion$
@@ -47,12 +56,25 @@ export class PromotionsFacade {
     return this.state.promotionType!
   }
 
+  public set promotionBase(value: number) {
+    this.state.promotionBase = value
+  }
+
+  public get promotionBase() {
+    return this.state.promotionBase
+  }
+
+  public get promotionBase$() {
+    return this.state.promotionBase$
+  }
+
   public get hotDogs() {
     return this.hotDogsFacade.allHotDogs
   }
 
   public loadPromotion(id: string) {
     this.setHotDogQtdsSubscriber$()
+    this.promotionPriceSubscriber$()
     this.hotDogsFacade.loadHotDogsFromAPi()
     this.getPromotionByIdFromApi(id)
   }
@@ -123,6 +145,33 @@ export class PromotionsFacade {
         error: (e: HttpErrorResponse) => this.toast.error('Erro ao listar promoções', e),
       }
     )
+  }
+
+  public setCalcParams(type: number, base:number) {
+    this.state.promotionType = TipoCalculo.getByTypeId(type)
+    this.state.promotionBase = base
+  }
+
+  private promotionPriceSubscriber$() {
+    this.hotDogsFacade.priceSelectedsHotDogs$()
+      .pipe(map(v => this.calPriceFromPromotion()))
+      .subscribe(v => this.price = v)
+
+    this.state.promotionBase$
+      .pipe(map(b => this.calPriceFromPromotion()))
+      .subscribe(v => this.price = v)
+
+    this.state.promotionType$
+      .pipe(map(t => this.calPriceFromPromotion()))
+      .subscribe(v => this.price = v)
+  }
+
+  private calPriceFromPromotion(): number {
+    if(!this.promotion || !this.state.promotionType) return TipoCalculo.UNKNOW.type
+    const calcType = TipoCalculo.getByTypeId(this.state.promotionType.type)
+    const price = this.hotDogsFacade.priceSelectedsHotDogs()
+    const value = calcType.calc(price, this.state.promotionBase)
+    return value;
   }
 
   private removePromotionAccept(

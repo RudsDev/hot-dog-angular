@@ -4,7 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { DropdownChangeEvent } from 'primeng/dropdown';
 
-import { take } from 'rxjs';
+import { filter, map, take } from 'rxjs';
 
 import { PromotionsFacade } from '../../../../facades/promotions/promotions.facade';
 import { TipoCalculo, TipoCalculoType } from '../../../../models/enums/tipo-calculo';
@@ -20,6 +20,8 @@ export class PromotionsFormComponent implements OnInit {
   private router: Router = inject(Router)
   private activatedRoute = inject(ActivatedRoute)
   private readonly PROMOTIONS_URL = ['/promotions'];
+
+  private readonly priceChangersKeys = ['tipo', 'baseCalculo']
 
   readonly facade: PromotionsFacade = inject(PromotionsFacade);
   readonly ALL_TYPES:TipoCalculoType[] = TipoCalculo.ALL_TYPES;
@@ -40,6 +42,7 @@ export class PromotionsFormComponent implements OnInit {
   ngOnInit(): void {
     this.loadPromotion()
     this.loadForm()
+    this.formChanges()
   }
 
   handleSubmit() {
@@ -52,6 +55,14 @@ export class PromotionsFormComponent implements OnInit {
 
   selectPromotion(e:DropdownChangeEvent) {
     this.setPromotionType(e.value)
+  }
+
+  formChanges() {
+    this.form.valueChanges
+    .subscribe(form =>
+      this.facade
+        .setCalcParams(Number(form.tipo), Number(form.baseCalculo))
+    )
   }
 
   private createSubmitPayload(): any {
@@ -83,6 +94,7 @@ export class PromotionsFormComponent implements OnInit {
           baseCalculo: resp.baseCalculo,
         });
         this.setPromotionType(resp.tipoCalculo);
+        this.setPromotionBase(resp.baseCalculo);
       }
     }
     this.facade.promotion$.subscribe({next, error})
@@ -93,4 +105,7 @@ export class PromotionsFormComponent implements OnInit {
     this.facade.promotionType = findType(tipoCalculo);
   }
 
+  private setPromotionBase(base: number) {
+    this.facade.promotionBase = base;
+  }
 }
