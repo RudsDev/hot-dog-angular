@@ -94,8 +94,8 @@
       <ng-template pTemplate="body" let-promotion>
         <tr>
           <td>{{ promotion.nome }}</td>
-          <td>{{ promotion.tipoCalculo }}</td>
-          <td>{{ promotion.baseCalculo }}</td>
+          <td><app-promotions-type-badge [promotion]="promotion"/></td>
+          <td><app-promotions-base-badge [promotion]="promotion"/></td>
           <td>
             <div
               class="flex justify-content-end align-content-center align-items-center gap-2"

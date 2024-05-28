@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
+import { BadgeModule } from 'primeng/badge';
 
 import { PromotionsHomeComponent } from './page/promotions-home/promotions-home.component';
 import { PromotionsFormComponent } from './components/promotions-form/promotions-form.component';
@@ -21,6 +22,8 @@ import { PromotionsTableComponent } from './components/promotions-table/promotio
 import { PromotionsRegisterComponent } from './page/promotions-register/promotions-register.component';
 import { PromotionsItemsComponent } from './components/promotions-items/promotions-items.component';
 import { SharedModule } from "../../shared/shared.module";
+import { PromotionsTypeBadgeComponent } from './components/promotions-type-badge/promotions-type-badge.component';
+import { PromotionsBaseBadgeComponent } from './components/promotions-base-badge/promotions-base-badge.component';
 
 
 @NgModule({
@@ -29,7 +32,9 @@ import { SharedModule } from "../../shared/shared.module";
     PromotionsTableComponent,
     PromotionsRegisterComponent,
     PromotionsFormComponent,
-    PromotionsItemsComponent
+    PromotionsItemsComponent,
+    PromotionsTypeBadgeComponent,
+    PromotionsBaseBadgeComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +46,7 @@ import { SharedModule } from "../../shared/shared.module";
     ButtonModule,
     InputTextModule,
     DropdownModule,
+    BadgeModule,
     FontAwesomeModule,
     SharedModule
   ]
