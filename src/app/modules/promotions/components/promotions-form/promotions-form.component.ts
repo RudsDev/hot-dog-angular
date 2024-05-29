@@ -9,6 +9,7 @@ import { filter, map, take } from 'rxjs';
 import { PromotionsFacade } from '../../../../facades/promotions/promotions.facade';
 import { TipoCalculo, TipoCalculoType } from '../../../../models/enums/tipo-calculo';
 import { PromotionsResponse } from '../../../../models/interfaces/promotions/promotions-response';
+import { PromotionsTinyResponse } from '../../../../models/interfaces/promotions/promotions-tiny-response';
 
 @Component({
   selector: 'app-promotions-form',
@@ -65,11 +66,13 @@ export class PromotionsFormComponent implements OnInit {
     )
   }
 
-  private createSubmitPayload(): any {
+  private createSubmitPayload(): PromotionsTinyResponse {
     return {
       id: this.form.value.id as string,
       nome: this.form.value.nome as string,
-      ingredientes: this.facade.hotDogs
+      baseCalculo: this.form.value.baseCalculo!,
+      tipoCalculo: this.form.value.tipo!,
+      itens: this.mapSelectedHotDogs()
     }
   }
 
@@ -107,5 +110,12 @@ export class PromotionsFormComponent implements OnInit {
 
   private setPromotionBase(base: number) {
     this.facade.promotionBase = base;
+  }
+
+  private mapSelectedHotDogs(): { qtd: number; lanche: number; }[] {
+    return this.facade.hotDogs
+      .filter(h => !!h.quantidade)
+      .map(h => ({ qtd: h.quantidade!, lanche: Number(h.id) }))
+      || [];
   }
 }

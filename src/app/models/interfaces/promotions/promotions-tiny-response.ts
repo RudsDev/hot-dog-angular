@@ -3,4 +3,5 @@ export interface PromotionsTinyResponse {
   nome:string,
   baseCalculo:number,
   tipoCalculo:number,
+  itens?: Array<{qtd: number, lanche: number}>
 }

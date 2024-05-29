@@ -18,8 +18,12 @@ export class PromotionsService extends GenericService {
   remove(id: string): Observable<void> {
     throw new Error("Method not implemented.");
   }
-  edit(promotion: PromotionsTinyResponse): Observable<PromotionsTinyResponse> {
-    throw new Error("Method not implemented.");
+  edit(payload: PromotionsTinyResponse): Observable<PromotionsTinyResponse> {
+    return this.http.put<PromotionsTinyResponse>(
+      `${this.API_URL}/${this.VERSIONS.V1}/${this.SUFIX}/${payload.id}`,
+      payload,
+      this.httpOptions
+    );
   }
   create(promotion: PromotionsTinyResponse): Observable<PromotionsTinyResponse> {
     throw new Error("Method not implemented.");
