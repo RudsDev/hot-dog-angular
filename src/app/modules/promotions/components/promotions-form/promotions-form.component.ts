@@ -4,7 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { DropdownChangeEvent } from 'primeng/dropdown';
 
-import { filter, map, take } from 'rxjs';
+import { take } from 'rxjs';
 
 import { PromotionsFacade } from '../../../../facades/promotions/promotions.facade';
 import { TipoCalculo, TipoCalculoType } from '../../../../models/enums/tipo-calculo';
