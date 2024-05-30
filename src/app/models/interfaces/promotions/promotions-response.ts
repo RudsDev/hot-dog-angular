@@ -2,44 +2,63 @@ import { PromotionItemResponse } from "./promotion-items-response";
 
 export class PromotionsResponse {
 
-  private _id:string
-  private _nome:string
-  private _baseCalculo:number
-  private _tipoCalculo:number
-  private _itens: PromotionItemResponse[]
-  private _preco: string
+  private _id = ''
+  private _nome = ''
+  private _baseCalculo =  1
+  private _tipoCalculo =  1
+  private _itens: PromotionItemResponse[] = []
+  private _preco:string = '0'
 
-  constructor ( p:PromotionsResponse ) {
-    this._id = p.id
-    this._nome = p.nome
-    this._baseCalculo = p.baseCalculo
-    this._tipoCalculo = p.tipoCalculo
-    this._itens = p.itens
-    this._preco = p.preco
+  constructor(p: Partial<PromotionsResponse> | PromotionsResponse) {
+    Object.assign(this, p);
   }
 
   public get id() {
     return this._id
   }
 
+  public set id(id:string) {
+    this._id = id
+  }
+
   public get nome() {
     return this._nome
+  }
+
+  public set nome(nome:string) {
+    this._nome = nome
   }
 
   public get baseCalculo() {
     return this._baseCalculo
   }
 
+  public set baseCalculo(baseCalculo:number) {
+    this._baseCalculo = baseCalculo
+  }
+
   public get tipoCalculo() {
     return this._tipoCalculo
+  }
+
+  public set tipoCalculo(tipoCalculo:number) {
+    this._tipoCalculo = tipoCalculo
   }
 
   public get itens() {
     return this._itens
   }
 
+  public set itens(itens:PromotionItemResponse[]) {
+    this._itens = itens
+  }
+
   public get preco() {
     return this._preco
+  }
+
+  public set preco(preco:string) {
+    this._preco = Number(preco).toString()
   }
 
   public get lanchesQtds() {

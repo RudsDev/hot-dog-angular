@@ -25,8 +25,12 @@ export class PromotionsService extends GenericService {
       this.httpOptions
     );
   }
-  create(promotion: PromotionsTinyResponse): Observable<PromotionsTinyResponse> {
-    throw new Error("Method not implemented.");
+  create(payload: PromotionsTinyResponse): Observable<PromotionsTinyResponse> {
+    return this.http.post<PromotionsTinyResponse>(
+      `${this.API_URL}/${this.VERSIONS.V1}/${this.SUFIX}`,
+      payload,
+      this.httpOptions
+    );
   }
 
   public getById(id:string): Observable<PromotionsResponse> {

@@ -166,10 +166,12 @@ export class HotDogsFacade {
   }
 
   public priceSelectedsHotDogs() {
-    return this.allHotDogs
-      .filter(p => !!p)
-      .map(p => (Number(p.preco)) * Number(p.quantidade))
-      .reduce((p, c) =>  p + c)
+    return this.allHotDogs.length
+      ? this.allHotDogs
+        .filter(p => !!p)
+        .map(p => (Number(p.preco)) * Number(p.quantidade))
+        .reduce((p, c) =>  p + c)
+      : 0
   }
 
   public priceSelectedsHotDogs$() {
@@ -192,7 +194,7 @@ export class HotDogsFacade {
     this.hotdogsService
       .getAll()
       .subscribe(resp => {
-        this.hotdogsState.allHotDogs = resp
+        this.hotdogsState.allHotDogs = resp.map(r => ({ ...r, quantidade: 0 }))
       })
   }
 

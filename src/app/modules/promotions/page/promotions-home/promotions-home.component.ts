@@ -28,7 +28,7 @@ export class PromotionsHomeComponent extends CrudTableEventListener implements O
   }
 
   override create(event?: TableCrudEvent): void {
-    // this.router.navigate(['/promotions/register'])
+    this.router.navigate(['/promotions/register'])
     console.log(event)
   }
   override read(event?: TableCrudEvent): void {

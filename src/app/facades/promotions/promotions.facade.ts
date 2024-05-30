@@ -76,7 +76,9 @@ export class PromotionsFacade {
     this.setHotDogQtdsSubscriber$()
     this.promotionPriceSubscriber$()
     this.hotDogsFacade.loadHotDogsFromAPi()
-    this.getPromotionByIdFromApi(id)
+    id
+      ? this.getPromotionByIdFromApi(id)
+      : this.state.promotion$ = new PromotionsResponse({})
   }
 
   private getPromotionByIdFromApi(id:string) {

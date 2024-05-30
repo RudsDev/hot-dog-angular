@@ -8,6 +8,10 @@ export const PROMOTIONS_ROUTES: Routes = [
     component: PromotionsHomeComponent,
   },
   {
+    path: 'register',
+    component: PromotionsRegisterComponent,
+  },
+  {
     path: 'register/:id',
     component: PromotionsRegisterComponent,
   },
