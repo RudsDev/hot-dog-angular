@@ -39,8 +39,8 @@ export class PromotionsHomeComponent extends CrudTableEventListener implements O
     console.log(event)
   }
   override delete(event: TableCrudEvent): void {
-    // const success = () => this.remove(event.id!)
-    // this.facade.remove(event.id!, { success })
+    const success = () => this.remove(event.id!)
+    this.facade.remove(event.id!, { success })
     console.log(event)
   }
 
