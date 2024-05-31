@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { PromotionsTinyResponse } from "../models/interfaces/promotions/promotions-tiny-response";
 import { TipoCalculoType } from "../models/enums/tipo-calculo";
 import { PromotionsResponse } from "../models/interfaces/promotions/promotions-response";
