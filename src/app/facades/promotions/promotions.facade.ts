@@ -72,6 +72,10 @@ export class PromotionsFacade {
     this.setHotDogQtds()
     this.promotionPrice()
     this.hotDogsFacade.loadHotDogsFromAPi()
+    this.loadPromotion(id)
+  }
+
+  private loadPromotion(id: string) {
     id
       ? this.getPromotionByIdFromApi(id)
       : this.state.promotion$ = new PromotionsResponse({})
