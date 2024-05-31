@@ -45,28 +45,28 @@ export class PromotionsState {
     this._promotionBase$.next(value);
   }
 
-  private readonly _allPromotions = new BehaviorSubject<Array<PromotionsTinyResponse>>([])
+  private readonly _allPromotions$ = new BehaviorSubject<Array<PromotionsTinyResponse>>([])
 
   public get allPromotions$(): Observable<PromotionsTinyResponse[]> {
-    return this._allPromotions.asObservable();
+    return this._allPromotions$.asObservable();
   }
 
   public get allPromotions(): PromotionsTinyResponse[] {
-    return this._allPromotions.getValue();
+    return this._allPromotions$.getValue();
   }
 
   public set allPromotions(allPromotions: PromotionsTinyResponse[]) {
-    this._allPromotions.next(allPromotions);
+    this._allPromotions$.next(allPromotions);
   }
 
   public add(promotion: PromotionsTinyResponse): PromotionsTinyResponse {
-    const current = this._allPromotions.getValue()
+    const current = this._allPromotions$.getValue()
     this.allPromotions = [...current, promotion]
     return promotion
   }
 
   public remove(id: string): void {
-    const [...current] = this._allPromotions.getValue()
+    const [...current] = this._allPromotions$.getValue()
     const index = current.findIndex(i => i.id === id)
     current.splice(index, 1)
     this.allPromotions = current
