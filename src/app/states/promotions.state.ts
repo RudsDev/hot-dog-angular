@@ -47,10 +47,6 @@ export class PromotionsState {
 
   private readonly _allPromotions$ = new BehaviorSubject<Array<PromotionsTinyResponse>>([])
 
-  public get allPromotions$(): Observable<PromotionsTinyResponse[]> {
-    return this._allPromotions$.asObservable();
-  }
-
   public get allPromotions(): PromotionsTinyResponse[] {
     return this._allPromotions$.getValue();
   }

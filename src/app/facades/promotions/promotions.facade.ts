@@ -1,8 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 
-import { Observable } from "rxjs/internal/Observable";
-
 import { BehaviorSubject, filter, map, take } from "rxjs";
 
 import { TipoCalculo, TipoCalculoType } from "../../models/enums/tipo-calculo";
@@ -23,8 +21,6 @@ export class PromotionsFacade {
   private toast:ToastNotificationComponent = inject(ToastNotificationComponent)
   private prompt:PromptComponent = inject(PromptComponent)
   private _price:BehaviorSubject<number> = new BehaviorSubject(0)
-
-  promotions$: Observable<PromotionsTinyResponse[]> = this.state.allPromotions$;
 
   constructor(){}
 
