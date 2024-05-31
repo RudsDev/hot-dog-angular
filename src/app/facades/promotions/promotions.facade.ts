@@ -156,15 +156,15 @@ export class PromotionsFacade {
 
   private promotionPrice() {
     const priceFromHotDogSubscription = this.hotDogsFacade.priceSelectedsHotDogs$()
-      .pipe(map(v => this.calPriceFromPromotion()))
+      .pipe(map(v => this.calPrice()))
       .subscribe(v => this.price = v)
 
     const priceFromBaseSubscription = this.state.promotionBase$
-      .pipe(map(b => this.calPriceFromPromotion()))
+      .pipe(map(b => this.calPrice()))
       .subscribe(v => this.price = v)
 
     const priceFromTypeSubscription = this.state.promotionType$
-      .pipe(map(t => this.calPriceFromPromotion()))
+      .pipe(map(t => this.calPrice()))
       .subscribe(v => this.price = v)
 
       priceFromHotDogSubscription.add(priceFromBaseSubscription)
@@ -173,7 +173,7 @@ export class PromotionsFacade {
       return priceFromHotDogSubscription
   }
 
-  private calPriceFromPromotion(): number {
+  private calPrice(): number {
     if(!this.promotion || !this.state.promotionType) return TipoCalculo.UNKNOW.type
     const calcType = TipoCalculo.getByTypeId(this.state.promotionType.type)
     const price = this.hotDogsFacade.priceSelectedsHotDogs()
