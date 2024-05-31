@@ -78,7 +78,7 @@ export class PromotionsFacade {
   }
 
   private getPromotionByIdFromApi(id:string) {
-    this.promotionsService
+    return this.promotionsService
       .getById(id)
       .subscribe(resp => this.state.promotion$ = resp)
   }
@@ -86,8 +86,8 @@ export class PromotionsFacade {
   public add(
     promotion: PromotionsTinyResponse,
     callbacks?: {success?: Function, error?: Function}
-  ):void {
-    this.promotionsService
+  ) {
+    return this.promotionsService
       .create(promotion)
       .pipe(take(1))
       .subscribe({
@@ -106,8 +106,8 @@ export class PromotionsFacade {
   public edit(
     promotion: PromotionsTinyResponse,
     callbacks?: {success?: Function, error?: Function}
-  ):void {
-    this.promotionsService
+  ) {
+    return this.promotionsService
       .edit(promotion)
       .pipe(take(1))
       .subscribe({
@@ -126,16 +126,16 @@ export class PromotionsFacade {
   public remove(
     id: string,
     callbacks?: {success?: Function, error?: Function}
-  ): void {
-    this.prompt.showDialog({
+  ) {
+    return this.prompt.showDialog({
       header: 'Remover promoção',
       message: 'Deseha remover o promoção?',
       accept: () => this.removePromotionAccept(id, callbacks)
     })
   }
 
-  public getAllPromotions(): void {
-    this.promotionsService
+  public getAllPromotions() {
+    return this.promotionsService
       .getAll()
       .pipe(take(1))
       .subscribe({
@@ -151,17 +151,22 @@ export class PromotionsFacade {
   }
 
   private promotionPrice() {
-    this.hotDogsFacade.priceSelectedsHotDogs$()
+    const priceFromHotDogSubscription = this.hotDogsFacade.priceSelectedsHotDogs$()
       .pipe(map(v => this.calPriceFromPromotion()))
       .subscribe(v => this.price = v)
 
-    this.state.promotionBase$
+    const priceFromBaseSubscription = this.state.promotionBase$
       .pipe(map(b => this.calPriceFromPromotion()))
       .subscribe(v => this.price = v)
 
-    this.state.promotionType$
+    const priceFromTypeSubscription = this.state.promotionType$
       .pipe(map(t => this.calPriceFromPromotion()))
       .subscribe(v => this.price = v)
+
+      priceFromHotDogSubscription.add(priceFromBaseSubscription)
+      priceFromHotDogSubscription.add(priceFromTypeSubscription)
+
+      return priceFromHotDogSubscription
   }
 
   private calPriceFromPromotion(): number {
@@ -176,7 +181,7 @@ export class PromotionsFacade {
     id: string,
     callbacks?: {success?: Function, error?: Function}
   ) {
-    this.promotionsService
+    return this.promotionsService
       .remove(id)
       .pipe(take(1))
       .subscribe({
@@ -193,7 +198,7 @@ export class PromotionsFacade {
   }
 
   private setHotDogQtds() {
-    this.promotion$
+    return this.promotion$
       .pipe(filter(p => !!p))
       .pipe(map(p => new PromotionsResponse(p!)))
       .subscribe(res => this.hotDogsFacade.allHotDogsQtds = res.lanchesQtds)
