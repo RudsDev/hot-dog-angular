@@ -68,9 +68,9 @@ export class PromotionsFacade {
     return this.hotDogsFacade.allHotDogs
   }
 
-  public loadPromotion(id: string) {
-    this.setHotDogQtdsSubscriber$()
-    this.promotionPriceSubscriber$()
+  public loadPromotionData(id: string) {
+    this.setHotDogQtds()
+    this.promotionPrice()
     this.hotDogsFacade.loadHotDogsFromAPi()
     id
       ? this.getPromotionByIdFromApi(id)
@@ -150,7 +150,7 @@ export class PromotionsFacade {
     this.state.promotionBase = base
   }
 
-  private promotionPriceSubscriber$() {
+  private promotionPrice() {
     this.hotDogsFacade.priceSelectedsHotDogs$()
       .pipe(map(v => this.calPriceFromPromotion()))
       .subscribe(v => this.price = v)
@@ -192,7 +192,7 @@ export class PromotionsFacade {
       })
   }
 
-  private setHotDogQtdsSubscriber$() {
+  private setHotDogQtds() {
     this.promotion$
       .pipe(filter(p => !!p))
       .pipe(map(p => new PromotionsResponse(p!)))

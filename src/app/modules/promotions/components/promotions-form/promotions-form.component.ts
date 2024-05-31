@@ -78,7 +78,7 @@ export class PromotionsFormComponent implements OnInit {
 
   private loadPromotion() {
     const error = () => this.router.navigate(this.PROMOTIONS_URL)
-    const next = (d:Params) => this.facade.loadPromotion(d['id']?.toString())
+    const next = (d:Params) => this.facade.loadPromotionData(d['id']?.toString())
     this.activatedRoute
       .params
       .pipe(take(1))
