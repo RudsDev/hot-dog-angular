@@ -75,18 +75,6 @@ export class PromotionsFacade {
     this.loadPromotion(id)
   }
 
-  private loadPromotion(id: string) {
-    id
-      ? this.getPromotionByIdFromApi(id)
-      : this.state.promotion$ = new PromotionsResponse({})
-  }
-
-  private getPromotionByIdFromApi(id:string) {
-    return this.promotionsService
-      .getById(id)
-      .subscribe(resp => this.state.promotion$ = resp)
-  }
-
   public add(
     promotion: PromotionsTinyResponse,
     callbacks?: {success?: Function, error?: Function}
@@ -206,5 +194,17 @@ export class PromotionsFacade {
       .pipe(filter(p => !!p))
       .pipe(map(p => new PromotionsResponse(p!)))
       .subscribe(res => this.hotDogsFacade.allHotDogsQtds = res.lanchesQtds)
+  }
+
+  private loadPromotion(id: string) {
+    id
+      ? this.getPromotionByIdFromApi(id)
+      : this.state.promotion$ = new PromotionsResponse({})
+  }
+
+  private getPromotionByIdFromApi(id:string) {
+    return this.promotionsService
+      .getById(id)
+      .subscribe(resp => this.state.promotion$ = resp)
   }
 }
