@@ -22,8 +22,6 @@ export class PromotionsFormComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute)
   private readonly PROMOTIONS_URL = ['/promotions'];
 
-  private readonly priceChangersKeys = ['tipo', 'baseCalculo']
-
   readonly facade: PromotionsFacade = inject(PromotionsFacade);
   readonly ALL_TYPES:TipoCalculoType[] = TipoCalculo.ALL_TYPES;
 
